@@ -81,81 +81,71 @@ if not df_respuestas.empty:
     st.write("### Vista General de Respuestas (Datos Crudos)", df_respuestas.astype(str))
 
     st.markdown("---")
-    st.header("Análisis por Pregunta")
+    st.header("Análisis de Todas las Preguntas")
 
-    # Crea un diccionario para mostrar el texto de la pregunta en el selectbox.
-    # Usamos f"{p['id']} - {p['texto']}" para que sea más fácil identificar la pregunta
-    opciones_pregunta = {f"{p['id']} - {p['texto']}": p['id'] for p in definicion_preguntas if 'texto' in p}
-    
-    pregunta_seleccionada_texto = st.selectbox(
-        "Selecciona una pregunta para visualizar:",
-        options=list(opciones_pregunta.keys())
-    )
-    
-    # Obtiene el ID de la pregunta seleccionada para buscarlo en el DataFrame
-    columna_id = opciones_pregunta[pregunta_seleccionada_texto]
+    # Iterar sobre todas las preguntas válidas encontradas en el JSON
+    for pregunta_info in definicion_preguntas:
+        if 'texto' not in pregunta_info or 'id' not in pregunta_info:
+            continue
+            
+        columna_id = pregunta_info['id']
+        pregunta_texto = f"{columna_id} - {pregunta_info['texto']}"
+        tipo_pregunta = pregunta_info.get('tipo', 'desconocido')
 
-    if columna_id in df_respuestas.columns:
-        st.write(f"#### Resultados para: '{pregunta_seleccionada_texto}'")
-        
-        # Buscar la configuración de la pregunta actual en el JSON
-        pregunta_info = next((p for p in definicion_preguntas if p['id'] == columna_id), None)
-        tipo_pregunta = pregunta_info['tipo'] if pregunta_info else 'desconocido'
-        
-        # Renderizar el componente adecuado según el "tipo" definido en el JSON
-        if tipo_pregunta in ['opcion_multiple', 'si_no']:
-            serie_limpia = df_respuestas[columna_id].dropna().astype(str)
-            if not serie_limpia.empty:
-                conteo = serie_limpia.value_counts().reset_index()
-                conteo.columns = ['Opción', 'Cantidad']
-                fig = px.pie(conteo, names='Opción', values='Cantidad', hole=0.4, title=f"Proporción: {pregunta_seleccionada_texto}")
-                st.plotly_chart(fig, use_container_width=True)
+        # Renderizar la pregunta sólo si tiene respuestas en la base de datos
+        if columna_id in df_respuestas.columns:
+            st.markdown("---")
+            st.write(f"#### {pregunta_texto}")
+            
+            # Renderizar el componente adecuado según el "tipo" definido en el JSON
+            if tipo_pregunta in ['opcion_multiple', 'si_no']:
+                serie_limpia = df_respuestas[columna_id].dropna().astype(str)
+                if not serie_limpia.empty:
+                    conteo = serie_limpia.value_counts().reset_index()
+                    conteo.columns = ['Opción', 'Cantidad']
+                    fig = px.pie(conteo, names='Opción', values='Cantidad', hole=0.4)
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.info("No hay suficientes datos válidos para generar una gráfica para esta pregunta.")
+                
+            elif tipo_pregunta == 'seleccion_multiple':
+                serie_limpia = df_respuestas[columna_id].dropna().explode().astype(str)
+                if not serie_limpia.empty:
+                    conteo = serie_limpia.value_counts().reset_index()
+                    conteo.columns = ['Opción', 'Cantidad']
+                    fig = px.bar(conteo, x='Opción', y='Cantidad', text_auto=True)
+                    fig.update_layout(xaxis_title="Opciones Seleccionadas", yaxis_title="Cantidad de Respuestas")
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.info("No hay suficientes datos válidos para generar una gráfica para esta pregunta.")
+                
+            elif tipo_pregunta == 'numerico':
+                # Forzar a formato numérico por si Firestore lo guardó como string
+                df_respuestas[columna_id] = pd.to_numeric(df_respuestas[columna_id], errors='coerce')
+                
+                # Mostrar métricas clave en columnas
+                col1, col2, col3 = st.columns(3)
+                col1.metric("Promedio", f"{df_respuestas[columna_id].mean():.2f}")
+                col2.metric("Valor Máximo", f"{df_respuestas[columna_id].max()}")
+                col3.metric("Valor Mínimo", f"{df_respuestas[columna_id].min()}")
+                
+                st.write("Distribución de los datos:")
+                datos_grafica = df_respuestas.dropna(subset=[columna_id])
+                if not datos_grafica.empty:
+                    fig = px.histogram(datos_grafica, x=columna_id, nbins=15)
+                    fig.update_layout(xaxis_title="Valor", yaxis_title="Frecuencia (Cantidad de encuestados)")
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.info("No hay suficientes datos válidos para generar un histograma.")
+                
+            elif tipo_pregunta in ['texto_abierto', 'texto_libre', 'fecha']:
+                respuestas_limpias = df_respuestas[[columna_id]].dropna().astype(str)
+                with st.expander("📝 Ver respuestas textuales proporcionadas"):
+                    st.dataframe(respuestas_limpias, use_container_width=True)
+                
             else:
-                st.info("No hay suficientes datos válidos para generar una gráfica para esta pregunta.")
-            
-        elif tipo_pregunta == 'seleccion_multiple':
-            serie_limpia = df_respuestas[columna_id].dropna().explode().astype(str)
-            if not serie_limpia.empty:
-                conteo = serie_limpia.value_counts().reset_index()
-                conteo.columns = ['Opción', 'Cantidad']
-                fig = px.bar(conteo, x='Opción', y='Cantidad', text_auto=True, title=f"Frecuencia: {pregunta_seleccionada_texto}")
-                fig.update_layout(xaxis_title="Opciones Seleccionadas", yaxis_title="Cantidad de Respuestas")
-                st.plotly_chart(fig, use_container_width=True)
-            else:
-                st.info("No hay suficientes datos válidos para generar una gráfica para esta pregunta.")
-            
-        elif tipo_pregunta == 'numerico':
-            # Forzar a formato numérico por si Firestore lo guardó como string
-            df_respuestas[columna_id] = pd.to_numeric(df_respuestas[columna_id], errors='coerce')
-            
-            # Mostrar métricas clave en columnas
-            col1, col2, col3 = st.columns(3)
-            col1.metric("Promedio", f"{df_respuestas[columna_id].mean():.2f}")
-            col2.metric("Valor Máximo", f"{df_respuestas[columna_id].max()}")
-            col3.metric("Valor Mínimo", f"{df_respuestas[columna_id].min()}")
-            
-            st.write("Distribución de los datos:")
-            datos_grafica = df_respuestas.dropna(subset=[columna_id])
-            if not datos_grafica.empty:
-                fig = px.histogram(datos_grafica, x=columna_id, nbins=15)
-                fig.update_layout(xaxis_title="Valor", yaxis_title="Frecuencia (Cantidad de encuestados)")
-                st.plotly_chart(fig, use_container_width=True)
-            else:
-                st.info("No hay suficientes datos válidos para generar un histograma.")
-            
-        elif tipo_pregunta in ['texto_abierto', 'texto_libre', 'fecha']:
-            st.write("📝 Respuestas textuales proporcionadas:")
-            respuestas_limpias = df_respuestas[[columna_id]].dropna().astype(str)
-            st.dataframe(respuestas_limpias, use_container_width=True)
-            
-        else:
-            st.info(f"Visualización genérica para el tipo: `{tipo_pregunta}`")
-            respuestas_limpias = df_respuestas[[columna_id]].dropna().astype(str)
-            st.dataframe(respuestas_limpias, use_container_width=True)
-            
-    else:
-        st.info(f"Aún no hay respuestas registradas en la base de datos para la pregunta '{pregunta_seleccionada_texto}'. (ID buscado: {columna_id})")
-        with st.expander("Ver columnas detectadas en la base de datos"):
-            st.write(list(df_respuestas.columns))
+                respuestas_limpias = df_respuestas[[columna_id]].dropna().astype(str)
+                with st.expander(f"Visualización genérica para el tipo: `{tipo_pregunta}`"):
+                    st.dataframe(respuestas_limpias, use_container_width=True)
 else:
     st.warning("No se encontraron respuestas en la colección de Firestore.")
