@@ -63,6 +63,38 @@ def cargar_respuestas_encuestas():
         
     return pd.DataFrame(datos)
 
+# 4. Función para homologar/limpiar datos antes de graficar
+def homologar_datos(serie, tipo_pregunta, id_pregunta):
+    if tipo_pregunta in ['opcion_multiple', 'si_no', 'seleccion_multiple']:
+        # --- REGLAS GLOBALES ---
+        # Quita espacios extra, y pone la primera letra mayúscula (ej. "  hola  " -> "Hola")
+        serie = serie.str.strip().str.capitalize()
+        
+        # Unifica las respuestas afirmativas comunes
+        reemplazos_globales = {'Si': 'Sí', 'SÍ': 'Sí', 'Si ': 'Sí', 'SI': 'Sí'}
+        serie = serie.replace(reemplazos_globales)
+        
+        # --- REGLAS ESPECÍFICAS (NIVEL 2) ---
+        # Aquí puedes agregar "diccionarios" para preguntas rebeldes.
+        # Ejemplo para la pregunta 2.5 ("Es usted:")
+        if id_pregunta == '2.5':
+            reemplazos_2_5 = {'Coop': 'Cooperativista', 'Cooperativa': 'Cooperativista', 'Libre': 'Pescador libre'}
+            serie = serie.replace(reemplazos_2_5)
+
+        if id_pregunta == '3.10':
+            reemplazos_3_10 = {'Energía cfe' : 'Energía CFE', 'Energía eléctrica (cfe)' : 'Energía CFE' }
+            serie = serie.replace(reemplazos_3_10)
+        
+        if id_pregunta == '3.11':
+            reemplazos_3_11 = {'Conectada a red municipal': 'Red Municipal' , 'Agua conectada a red municipal': 'Red Municipal', 'Autoabastecimiento': 'Autoabasto', 'Agua autoabastecimiento': 'Autoabasto'}
+            serie = serie.replace(reemplazos_3_11)
+
+        if id_pregunta == '3.12':
+            reemplazos_3_12 = {'Conectado a red municipal': 'Red Municipal' ,'Drenaje fosa séptica': 'Fosa Séptica', 'Drenaje conectado a red municipal': 'Red Municipal', 'Drenaje fosa séptica': 'Fosa séptica', 'Fosa Séptica': 'Fosa séptica'}
+            serie = serie.replace(reemplazos_3_12)
+            
+    return serie
+
 # --- Construcción del Dashboard ---
 
 st.title("📊 Dashboard de Encuestas a Pescadores")
@@ -100,20 +132,24 @@ if not df_respuestas.empty:
             # Renderizar el componente adecuado según el "tipo" definido en el JSON
             if tipo_pregunta in ['opcion_multiple', 'si_no']:
                 serie_limpia = df_respuestas[columna_id].dropna().astype(str)
+                serie_limpia = homologar_datos(serie_limpia, tipo_pregunta, columna_id)
+                
                 if not serie_limpia.empty:
                     conteo = serie_limpia.value_counts().reset_index()
                     conteo.columns = ['Opción', 'Cantidad']
-                    fig = px.pie(conteo, names='Opción', values='Cantidad', hole=0.4)
+                    fig = px.pie(conteo, names='Opción', values='Cantidad', hole=0.4, title=pregunta_texto)
                     st.plotly_chart(fig, use_container_width=True)
                 else:
                     st.info("No hay suficientes datos válidos para generar una gráfica para esta pregunta.")
                 
             elif tipo_pregunta == 'seleccion_multiple':
                 serie_limpia = df_respuestas[columna_id].dropna().explode().astype(str)
+                serie_limpia = homologar_datos(serie_limpia, tipo_pregunta, columna_id)
+                
                 if not serie_limpia.empty:
                     conteo = serie_limpia.value_counts().reset_index()
                     conteo.columns = ['Opción', 'Cantidad']
-                    fig = px.bar(conteo, x='Opción', y='Cantidad', text_auto=True)
+                    fig = px.bar(conteo, x='Opción', y='Cantidad', text_auto=True, title=pregunta_texto)
                     fig.update_layout(xaxis_title="Opciones Seleccionadas", yaxis_title="Cantidad de Respuestas")
                     st.plotly_chart(fig, use_container_width=True)
                 else:
