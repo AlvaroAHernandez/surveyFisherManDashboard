@@ -1,14 +1,16 @@
 import streamlit as st
 import firebase_admin
 from firebase_admin import credentials
+# pyrefly: ignore [missing-import]
 from firebase_admin import firestore
 import pandas as pd
 import json
-import plotly.express as px
+# pyrefly: ignore [missing-import]
+import plotly.express as px 
 
 # 1. Autenticación con Firebase
 if not firebase_admin._apps:
-    cred = credentials.Certificate("/home/russellpc/workspace/surveyFisherManDashboard/surver-fisherman-uabcs-firebase-adminsdk-fbsvc-5c73dae273.json")
+    cred = credentials.Certificate("surver-fisherman-uabcs-firebase-adminsdk-fbsvc-5c73dae273.json")
     firebase_admin.initialize_app(cred)
 
 db = firestore.client()
@@ -101,7 +103,7 @@ st.title("📊 Dashboard de Encuestas a Pescadores")
 
 # Carga la definición de preguntas y las respuestas
 try:
-    definicion_preguntas = cargar_definicion_preguntas('/home/russellpc/workspace/surveyFisherManDashboard/json/survey.json')
+    definicion_preguntas = cargar_definicion_preguntas('json/survey.json')
 except FileNotFoundError:
     st.error("Error: No se encontró el archivo JSON de la encuesta. Asegúrate de que la ruta sea correcta.")
     st.stop()
