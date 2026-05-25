@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1504" height="1424" viewBox="0 0 1504 1424">
+  <defs>
+    <style>text { font-family: "Segoe UI", Arial, sans-serif; }</style>
+  </defs>
+  <rect width="1504" height="1424" fill="#F0F6FA"/>
+  <rect x="0" y="0" width="1504" height="60" fill="#00497E" rx="5"/>
+  <text x="752" y="26" fill="#FFFFFF" font-size="17" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">BASE DE DATOS — Dashboard Pesquero UABCS</text>
+  <text x="752" y="46" fill="#FFD100" font-size="11" font-weight="normal" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">Encuesta de Inclusión Financiera y TIC  ·  Sector Pesquero BCS</text>
+  <rect x="402" y="100" width="700" height="170" fill="#FFFFFF" rx="7" stroke="#009FD4" stroke-width="2"/>
+  <rect x="402" y="100" width="700" height="36" fill="#00497E" rx="7"/>
+  <rect x="402" y="128" width="700" height="10" fill="#00497E"/>
+  <text x="418" y="122" fill="#FFFFFF" font-size="13" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">🔥  Firestore  ·  survey_responses  [colección]</text>
+  <rect x="404" y="130" width="696" height="21" fill="#E3F4FB" rx="0"/>
+  <text x="416" y="144" fill="#00497E" font-size="11" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">status</text>
+  <text x="557" y="144" fill="#009FD4" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">String</text>
+  <text x="647" y="144" fill="#333" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Estado del documento (active / …)</text>
+  <rect x="404" y="151" width="696" height="21" fill="#FFFFFF" rx="0"/>
+  <text x="416" y="165" fill="#00497E" font-size="11" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">timestamp</text>
+  <text x="557" y="165" fill="#009FD4" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Timestamp</text>
+  <text x="647" y="165" fill="#333" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Fecha y hora de captura</text>
+  <rect x="404" y="172" width="696" height="21" fill="#E3F4FB" rx="0"/>
+  <text x="416" y="186" fill="#00497E" font-size="11" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">user_id</text>
+  <text x="557" y="186" fill="#009FD4" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">String</text>
+  <text x="647" y="186" fill="#333" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">UID Firebase del encuestador</text>
+  <rect x="404" y="193" width="696" height="21" fill="#FFFFFF" rx="0"/>
+  <text x="416" y="207" fill="#00497E" font-size="11" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">survey_version</text>
+  <text x="557" y="207" fill="#009FD4" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">String</text>
+  <text x="647" y="207" fill="#333" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Versión del cuestionario</text>
+  <rect x="404" y="214" width="696" height="21" fill="#E3F4FB" rx="0"/>
+  <text x="416" y="228" fill="#00497E" font-size="11" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">responses</text>
+  <text x="557" y="228" fill="#009FD4" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Map</text>
+  <text x="647" y="228" fill="#333" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Respuestas: claves = IDs de pregunta  →  8 secciones</text>
+  <rect x="402" y="100" width="700" height="170" fill="none" rx="7" stroke="#009FD4" stroke-width="2"/>
+  <line x1="752" y1="270" x2="752" y2="294" stroke="#009FD4" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="280" y1="294" x2="1224" y2="294" stroke="#009FD4" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="280" y1="294" x2="280" y2="318" stroke="#009FD4" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <rect x="63" y="321" width="440" height="136" fill="#B0C4D4" rx="6"/>
+  <rect x="60" y="318" width="440" height="136" fill="#FFFFFF" rx="6" stroke="#1A6FA0" stroke-width="1.5"/>
+  <rect x="60" y="318" width="440" height="32" fill="#1A6FA0" rx="6"/>
+  <rect x="60" y="344" width="440" height="8" fill="#1A6FA0"/>
+  <rect x="68" y="323" width="28" height="22" fill="#FFD100" rx="4"/>
+  <text x="82" y="339" fill="#00497E" font-size="11" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">1</text>
+  <text x="104" y="340" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Datos de Identificación</text>
+  <text x="490" y="340" fill="#FFD100" font-size="9" font-weight="normal" text-anchor="end" font-family="Segoe UI, Arial, sans-serif">4 campos</text>
+  <rect x="62" y="360" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="360" width="3" height="21" fill="#1A6FA0" opacity="0.55"/>
+  <text x="72" y="374" fill="#1A6FA0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">1.1</text>
+  <text x="128" y="374" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Lugar de la encuesta</text>
+  <rect x="62" y="381" width="436" height="21" fill="#C8D4DE"/>
+  <rect x="62" y="381" width="3" height="21" fill="#1A6FA0" opacity="0.55"/>
+  <text x="72" y="395" fill="#8E9BAA" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">🔒</text>
+  <text x="86" y="395" fill="#8E9BAA" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">1.2</text>
+  <text x="156" y="395" fill="#8E9BAA" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Nombre del encuestador</text>
+  <rect x="62" y="402" width="436" height="21" fill="#C8D4DE"/>
+  <rect x="62" y="402" width="3" height="21" fill="#1A6FA0" opacity="0.55"/>
+  <text x="72" y="416" fill="#8E9BAA" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">🔒</text>
+  <text x="86" y="416" fill="#8E9BAA" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">1.3</text>
+  <text x="156" y="416" fill="#8E9BAA" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Fecha de la encuesta</text>
+  <rect x="62" y="423" width="436" height="21" fill="#C8D4DE"/>
+  <rect x="62" y="423" width="3" height="21" fill="#1A6FA0" opacity="0.55"/>
+  <text x="72" y="437" fill="#8E9BAA" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">🔒</text>
+  <text x="86" y="437" fill="#8E9BAA" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">1.4</text>
+  <text x="156" y="437" fill="#8E9BAA" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">ID de la encuesta</text>
+  <rect x="63" y="481" width="440" height="178" fill="#B0C4D4" rx="6"/>
+  <rect x="60" y="478" width="440" height="178" fill="#FFFFFF" rx="6" stroke="#7E3E96" stroke-width="1.5"/>
+  <rect x="60" y="478" width="440" height="32" fill="#7E3E96" rx="6"/>
+  <rect x="60" y="504" width="440" height="8" fill="#7E3E96"/>
+  <rect x="68" y="483" width="28" height="22" fill="#FFD100" rx="4"/>
+  <text x="82" y="499" fill="#00497E" font-size="11" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">2</text>
+  <text x="104" y="500" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Información del Encuestado</text>
+  <text x="490" y="500" fill="#FFD100" font-size="9" font-weight="normal" text-anchor="end" font-family="Segoe UI, Arial, sans-serif">6 campos</text>
+  <rect x="62" y="520" width="436" height="21" fill="#C8D4DE"/>
+  <rect x="62" y="520" width="3" height="21" fill="#7E3E96" opacity="0.55"/>
+  <text x="72" y="534" fill="#8E9BAA" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">🔒</text>
+  <text x="86" y="534" fill="#8E9BAA" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">2.1</text>
+  <text x="156" y="534" fill="#8E9BAA" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Nombre del encuestado</text>
+  <rect x="62" y="541" width="436" height="21" fill="#C8D4DE"/>
+  <rect x="62" y="541" width="3" height="21" fill="#7E3E96" opacity="0.55"/>
+  <text x="72" y="555" fill="#8E9BAA" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">🔒</text>
+  <text x="86" y="555" fill="#8E9BAA" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">2.2</text>
+  <text x="156" y="555" fill="#8E9BAA" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Domicilio</text>
+  <rect x="62" y="562" width="436" height="21" fill="#C8D4DE"/>
+  <rect x="62" y="562" width="3" height="21" fill="#7E3E96" opacity="0.55"/>
+  <text x="72" y="576" fill="#8E9BAA" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">🔒</text>
+  <text x="86" y="576" fill="#8E9BAA" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">2.3</text>
+  <text x="156" y="576" fill="#8E9BAA" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Correo electrónico</text>
+  <rect x="62" y="583" width="436" height="21" fill="#C8D4DE"/>
+  <rect x="62" y="583" width="3" height="21" fill="#7E3E96" opacity="0.55"/>
+  <text x="72" y="597" fill="#8E9BAA" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">🔒</text>
+  <text x="86" y="597" fill="#8E9BAA" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">2.4</text>
+  <text x="156" y="597" fill="#8E9BAA" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Celular</text>
+  <rect x="62" y="604" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="604" width="3" height="21" fill="#7E3E96" opacity="0.55"/>
+  <text x="72" y="618" fill="#7E3E96" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">2.5</text>
+  <text x="128" y="618" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Categoría del pescador</text>
+  <rect x="62" y="625" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="62" y="625" width="3" height="21" fill="#7E3E96" opacity="0.55"/>
+  <text x="72" y="639" fill="#7E3E96" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">2.5.1</text>
+  <text x="128" y="639" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">SCPP y puesto</text>
+  <rect x="63" y="683" width="440" height="451" fill="#B0C4D4" rx="6"/>
+  <rect x="60" y="680" width="440" height="451" fill="#FFFFFF" rx="6" stroke="#1A8C5A" stroke-width="1.5"/>
+  <rect x="60" y="680" width="440" height="32" fill="#1A8C5A" rx="6"/>
+  <rect x="60" y="706" width="440" height="8" fill="#1A8C5A"/>
+  <rect x="68" y="685" width="28" height="22" fill="#FFD100" rx="4"/>
+  <text x="82" y="701" fill="#00497E" font-size="11" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">3</text>
+  <text x="104" y="702" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Información Demográfica</text>
+  <text x="490" y="702" fill="#FFD100" font-size="9" font-weight="normal" text-anchor="end" font-family="Segoe UI, Arial, sans-serif">19 campos</text>
+  <rect x="62" y="722" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="722" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="736" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.1</text>
+  <text x="128" y="736" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Edad (años)</text>
+  <rect x="62" y="743" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="62" y="743" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="757" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.2</text>
+  <text x="128" y="757" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Rango de edad</text>
+  <rect x="62" y="764" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="764" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="778" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.3</text>
+  <text x="128" y="778" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Escolaridad</text>
+  <rect x="62" y="785" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="62" y="785" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="799" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.4</text>
+  <text x="128" y="799" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Estado civil</text>
+  <rect x="62" y="806" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="806" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="820" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.5</text>
+  <text x="128" y="820" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Tiene hijos?</text>
+  <rect x="62" y="827" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="62" y="827" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="841" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.5_3.5.1</text>
+  <text x="132" y="841" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Número de hijos</text>
+  <rect x="62" y="848" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="848" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="862" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.5_3.6</text>
+  <text x="128" y="862" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Escolaridad de los hijos</text>
+  <rect x="62" y="869" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="62" y="869" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="883" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.8</text>
+  <text x="128" y="883" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Personas dependientes</text>
+  <rect x="62" y="890" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="890" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="904" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.9</text>
+  <text x="128" y="904" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Tipo de vivienda</text>
+  <rect x="62" y="911" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="62" y="911" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="925" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.10</text>
+  <text x="128" y="925" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Tipo de energía eléctrica</text>
+  <rect x="62" y="932" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="932" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="946" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.11</text>
+  <text x="128" y="946" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Fuente de agua potable</text>
+  <rect x="62" y="953" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="62" y="953" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="967" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.12</text>
+  <text x="128" y="967" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Sistema de drenaje</text>
+  <rect x="62" y="974" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="974" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="988" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.13</text>
+  <text x="128" y="988" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">No. personas en el hogar</text>
+  <rect x="62" y="995" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="62" y="995" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="1009" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.14</text>
+  <text x="128" y="1009" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Cuenta con servicio médico?</text>
+  <rect x="62" y="1016" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="1016" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="1030" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.15</text>
+  <text x="128" y="1030" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Enfermedad crónica?</text>
+  <rect x="62" y="1037" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="62" y="1037" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="1051" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.16</text>
+  <text x="128" y="1051" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Horas de ocio por semana</text>
+  <rect x="62" y="1058" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="1058" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="1072" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.17</text>
+  <text x="128" y="1072" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Familiar con empleo alterno</text>
+  <rect x="62" y="1079" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="62" y="1079" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="1093" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.18</text>
+  <text x="128" y="1093" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Ingreso mensual por pesca ($)</text>
+  <rect x="62" y="1100" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="1100" width="3" height="21" fill="#1A8C5A" opacity="0.55"/>
+  <text x="72" y="1114" fill="#1A8C5A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">3.19</text>
+  <text x="128" y="1114" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Ingreso adicional familiares ($)</text>
+  <line x1="752" y1="294" x2="752" y2="318" stroke="#009FD4" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <rect x="535" y="321" width="440" height="283" fill="#B0C4D4" rx="6"/>
+  <rect x="532" y="318" width="440" height="283" fill="#FFFFFF" rx="6" stroke="#B85C0A" stroke-width="1.5"/>
+  <rect x="532" y="318" width="440" height="32" fill="#B85C0A" rx="6"/>
+  <rect x="532" y="344" width="440" height="8" fill="#B85C0A"/>
+  <rect x="540" y="323" width="28" height="22" fill="#FFD100" rx="4"/>
+  <text x="554" y="339" fill="#00497E" font-size="11" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">4</text>
+  <text x="576" y="340" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Aspectos Económicos</text>
+  <text x="962" y="340" fill="#FFD100" font-size="9" font-weight="normal" text-anchor="end" font-family="Segoe UI, Arial, sans-serif">11 campos</text>
+  <rect x="534" y="360" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="360" width="3" height="21" fill="#B85C0A" opacity="0.55"/>
+  <text x="544" y="374" fill="#B85C0A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">4.1</text>
+  <text x="600" y="374" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Sale a pescar solo o contrata?</text>
+  <rect x="534" y="381" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="534" y="381" width="3" height="21" fill="#B85C0A" opacity="0.55"/>
+  <text x="544" y="395" fill="#B85C0A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">4.2</text>
+  <text x="600" y="395" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Gasto por viaje: combustible ($)</text>
+  <rect x="534" y="402" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="402" width="3" height="21" fill="#B85C0A" opacity="0.55"/>
+  <text x="544" y="416" fill="#B85C0A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">4.3</text>
+  <text x="600" y="416" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Gasto por viaje: alimentos ($)</text>
+  <rect x="534" y="423" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="534" y="423" width="3" height="21" fill="#B85C0A" opacity="0.55"/>
+  <text x="544" y="437" fill="#B85C0A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">4.4</text>
+  <text x="600" y="437" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Inversión en artes de pesca ($)</text>
+  <rect x="534" y="444" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="444" width="3" height="21" fill="#B85C0A" opacity="0.55"/>
+  <text x="544" y="458" fill="#B85C0A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">4.5</text>
+  <text x="600" y="458" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Horas de pesca por día</text>
+  <rect x="534" y="465" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="534" y="465" width="3" height="21" fill="#B85C0A" opacity="0.55"/>
+  <text x="544" y="479" fill="#B85C0A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">4.6</text>
+  <text x="600" y="479" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Días de trabajo por semana</text>
+  <rect x="534" y="486" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="486" width="3" height="21" fill="#B85C0A" opacity="0.55"/>
+  <text x="544" y="500" fill="#B85C0A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">4.7</text>
+  <text x="600" y="500" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Hace campamentos de pesca?</text>
+  <rect x="534" y="507" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="534" y="507" width="3" height="21" fill="#B85C0A" opacity="0.55"/>
+  <text x="544" y="521" fill="#B85C0A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">4.7.1</text>
+  <text x="600" y="521" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Lugar del campamento</text>
+  <rect x="534" y="528" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="528" width="3" height="21" fill="#B85C0A" opacity="0.55"/>
+  <text x="544" y="542" fill="#B85C0A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">4.7.2</text>
+  <text x="600" y="542" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Duración campamento (días)</text>
+  <rect x="534" y="549" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="534" y="549" width="3" height="21" fill="#B85C0A" opacity="0.55"/>
+  <text x="544" y="563" fill="#B85C0A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">4.7.3</text>
+  <text x="600" y="563" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Gasto en campamento ($)</text>
+  <rect x="534" y="570" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="570" width="3" height="21" fill="#B85C0A" opacity="0.55"/>
+  <text x="544" y="584" fill="#B85C0A" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">4.7.4</text>
+  <text x="600" y="584" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Especie objetivo por mes [tabla]</text>
+  <rect x="535" y="628" width="440" height="178" fill="#B0C4D4" rx="6"/>
+  <rect x="532" y="625" width="440" height="178" fill="#FFFFFF" rx="6" stroke="#0A7B8C" stroke-width="1.5"/>
+  <rect x="532" y="625" width="440" height="32" fill="#0A7B8C" rx="6"/>
+  <rect x="532" y="651" width="440" height="8" fill="#0A7B8C"/>
+  <rect x="540" y="630" width="28" height="22" fill="#FFD100" rx="4"/>
+  <text x="554" y="646" fill="#00497E" font-size="11" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">5</text>
+  <text x="576" y="647" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Comercialización</text>
+  <text x="962" y="647" fill="#FFD100" font-size="9" font-weight="normal" text-anchor="end" font-family="Segoe UI, Arial, sans-serif">6 campos</text>
+  <rect x="534" y="667" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="667" width="3" height="21" fill="#0A7B8C" opacity="0.55"/>
+  <text x="544" y="681" fill="#0A7B8C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">5.1</text>
+  <text x="600" y="681" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿A quién vende su captura?</text>
+  <rect x="534" y="688" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="534" y="688" width="3" height="21" fill="#0A7B8C" opacity="0.55"/>
+  <text x="544" y="702" fill="#0A7B8C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">5.2</text>
+  <text x="600" y="702" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Especies comerciales más importantes</text>
+  <rect x="534" y="709" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="709" width="3" height="21" fill="#0A7B8C" opacity="0.55"/>
+  <text x="544" y="723" fill="#0A7B8C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">5.3_viajes</text>
+  <text x="610" y="723" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Viajes de pesca al mes</text>
+  <rect x="534" y="730" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="534" y="730" width="3" height="21" fill="#0A7B8C" opacity="0.55"/>
+  <text x="544" y="744" fill="#0A7B8C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">5.3.1</text>
+  <text x="600" y="744" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Horas en act. alternativas/día</text>
+  <rect x="534" y="751" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="751" width="3" height="21" fill="#0A7B8C" opacity="0.55"/>
+  <text x="544" y="765" fill="#0A7B8C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">5.4</text>
+  <text x="600" y="765" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Actividad económica alternativa?</text>
+  <rect x="534" y="772" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="534" y="772" width="3" height="21" fill="#0A7B8C" opacity="0.55"/>
+  <text x="544" y="786" fill="#0A7B8C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">5.4_5.4.1</text>
+  <text x="604" y="786" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Actividad económica alternativa</text>
+  <rect x="535" y="830" width="440" height="220" fill="#B0C4D4" rx="6"/>
+  <rect x="532" y="827" width="440" height="220" fill="#FFFFFF" rx="6" stroke="#6B3D8F" stroke-width="1.5"/>
+  <rect x="532" y="827" width="440" height="32" fill="#6B3D8F" rx="6"/>
+  <rect x="532" y="853" width="440" height="8" fill="#6B3D8F"/>
+  <rect x="540" y="832" width="28" height="22" fill="#FFD100" rx="4"/>
+  <text x="554" y="848" fill="#00497E" font-size="11" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">6</text>
+  <text x="576" y="849" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Acuicultura — Cultivo</text>
+  <text x="962" y="849" fill="#FFD100" font-size="9" font-weight="normal" text-anchor="end" font-family="Segoe UI, Arial, sans-serif">8 campos</text>
+  <rect x="534" y="869" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="869" width="3" height="21" fill="#6B3D8F" opacity="0.55"/>
+  <text x="544" y="883" fill="#6B3D8F" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">6.1</text>
+  <text x="600" y="883" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Año de inicio de acuacultura</text>
+  <rect x="534" y="890" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="534" y="890" width="3" height="21" fill="#6B3D8F" opacity="0.55"/>
+  <text x="544" y="904" fill="#6B3D8F" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">6.2</text>
+  <text x="600" y="904" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Razón para abandonar acuicultura</text>
+  <rect x="534" y="911" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="911" width="3" height="21" fill="#6B3D8F" opacity="0.55"/>
+  <text x="544" y="925" fill="#6B3D8F" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">6.3</text>
+  <text x="600" y="925" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Repoblamiento / cultivo?</text>
+  <rect x="534" y="932" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="534" y="932" width="3" height="21" fill="#6B3D8F" opacity="0.55"/>
+  <text x="544" y="946" fill="#6B3D8F" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">6.3.1</text>
+  <text x="600" y="946" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Continúa practicando cultivo?</text>
+  <rect x="534" y="953" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="953" width="3" height="21" fill="#6B3D8F" opacity="0.55"/>
+  <text x="544" y="967" fill="#6B3D8F" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">6.4</text>
+  <text x="600" y="967" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Organismo en repoblamiento</text>
+  <rect x="534" y="974" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="534" y="974" width="3" height="21" fill="#6B3D8F" opacity="0.55"/>
+  <text x="544" y="988" fill="#6B3D8F" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">6.4.1</text>
+  <text x="600" y="988" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Especie cultivada</text>
+  <rect x="534" y="995" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="534" y="995" width="3" height="21" fill="#6B3D8F" opacity="0.55"/>
+  <text x="544" y="1009" fill="#6B3D8F" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">6.5</text>
+  <text x="600" y="1009" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Especie acuícola actual</text>
+  <rect x="534" y="1016" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="534" y="1016" width="3" height="21" fill="#6B3D8F" opacity="0.55"/>
+  <text x="544" y="1030" fill="#6B3D8F" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">6.6</text>
+  <text x="600" y="1030" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Fases con más problemas</text>
+  <line x1="1224" y1="294" x2="1224" y2="318" stroke="#009FD4" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <rect x="1007" y="321" width="440" height="430" fill="#B0C4D4" rx="6"/>
+  <rect x="1004" y="318" width="440" height="430" fill="#FFFFFF" rx="6" stroke="#1565C0" stroke-width="1.5"/>
+  <rect x="1004" y="318" width="440" height="32" fill="#1565C0" rx="6"/>
+  <rect x="1004" y="344" width="440" height="8" fill="#1565C0"/>
+  <rect x="1012" y="323" width="28" height="22" fill="#FFD100" rx="4"/>
+  <text x="1026" y="339" fill="#00497E" font-size="11" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">7</text>
+  <text x="1048" y="340" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">TIC — Tecnologías de la Información</text>
+  <text x="1434" y="340" fill="#FFD100" font-size="9" font-weight="normal" text-anchor="end" font-family="Segoe UI, Arial, sans-serif">18 campos</text>
+  <rect x="1006" y="360" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="360" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="374" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.1</text>
+  <text x="1072" y="374" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Bienes tecnológicos en el hogar</text>
+  <rect x="1006" y="381" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="381" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="395" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.2</text>
+  <text x="1072" y="395" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Act. con teléfono inteligente</text>
+  <rect x="1006" y="402" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="402" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="416" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.3</text>
+  <text x="1072" y="416" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Actividades con computadora</text>
+  <rect x="1006" y="423" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="423" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="437" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.4</text>
+  <text x="1072" y="437" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Dispone de internet?</text>
+  <rect x="1006" y="444" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="444" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="458" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.4_7.4.1</text>
+  <text x="1076" y="458" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Tipo de conexión a internet</text>
+  <rect x="1006" y="465" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="465" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="479" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.4.2</text>
+  <text x="1072" y="479" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Medio de conexión fija</text>
+  <rect x="1006" y="486" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="486" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="500" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.4.3</text>
+  <text x="1072" y="500" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Equipo de conexión móvil</text>
+  <rect x="1006" y="507" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="507" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="521" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.5</text>
+  <text x="1072" y="521" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Actividades con internet</text>
+  <rect x="1006" y="528" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="528" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="542" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.6</text>
+  <text x="1072" y="542" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Utiliza redes sociales?</text>
+  <rect x="1006" y="549" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="549" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="563" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.6.1</text>
+  <text x="1072" y="563" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Redes sociales y uso</text>
+  <rect x="1006" y="570" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="570" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="584" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.7</text>
+  <text x="1072" y="584" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Registra datos de pesca?</text>
+  <rect x="1006" y="591" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="591" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="605" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.7.1</text>
+  <text x="1072" y="605" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Herramienta de registro de pesca</text>
+  <rect x="1006" y="612" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="612" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="626" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.8</text>
+  <text x="1072" y="626" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Tecnologías necesarias para la pesca</text>
+  <rect x="1006" y="633" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="633" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="647" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.9</text>
+  <text x="1072" y="647" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Interesado en talleres TIC?</text>
+  <rect x="1006" y="654" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="654" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="668" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.9.1</text>
+  <text x="1072" y="668" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Motivo para participar</text>
+  <rect x="1006" y="675" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="675" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="689" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.9_7.9.2</text>
+  <text x="1076" y="689" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Motivo para no participar</text>
+  <rect x="1006" y="696" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="696" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="710" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.10</text>
+  <text x="1072" y="710" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Conoce org. de capacitación TIC?</text>
+  <rect x="1006" y="717" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="717" width="3" height="21" fill="#1565C0" opacity="0.55"/>
+  <text x="1016" y="731" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">7.10.1</text>
+  <text x="1072" y="731" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Org. de capacitación tecnológica</text>
+  <rect x="1007" y="775" width="440" height="472" fill="#B0C4D4" rx="6"/>
+  <rect x="1004" y="772" width="440" height="472" fill="#FFFFFF" rx="6" stroke="#B71C1C" stroke-width="1.5"/>
+  <rect x="1004" y="772" width="440" height="32" fill="#B71C1C" rx="6"/>
+  <rect x="1004" y="798" width="440" height="8" fill="#B71C1C"/>
+  <rect x="1012" y="777" width="28" height="22" fill="#FFD100" rx="4"/>
+  <text x="1026" y="793" fill="#00497E" font-size="11" font-weight="bold" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">8</text>
+  <text x="1048" y="794" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Inclusión Financiera</text>
+  <text x="1434" y="794" fill="#FFD100" font-size="9" font-weight="normal" text-anchor="end" font-family="Segoe UI, Arial, sans-serif">20 campos</text>
+  <rect x="1006" y="814" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="814" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="828" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.1</text>
+  <text x="1072" y="828" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Lleva registro de ingresos/gastos?</text>
+  <rect x="1006" y="835" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="835" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="849" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.2</text>
+  <text x="1072" y="849" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Tiene cuenta bancaria?</text>
+  <rect x="1006" y="856" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="856" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="870" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.2.1</text>
+  <text x="1072" y="870" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Tipo de cuenta bancaria</text>
+  <rect x="1006" y="877" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="877" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="891" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.3</text>
+  <text x="1072" y="891" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Razón: no tiene cuenta bancaria</text>
+  <rect x="1006" y="898" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="898" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="912" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.4</text>
+  <text x="1072" y="912" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Productos financieros que posee</text>
+  <rect x="1006" y="919" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="919" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="933" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.5</text>
+  <text x="1072" y="933" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Sabe qué es buró de crédito?</text>
+  <rect x="1006" y="940" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="940" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="954" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.5_8.5.1</text>
+  <text x="1076" y="954" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Conoce su situación en buró?</text>
+  <rect x="1006" y="961" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="961" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="975" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.6</text>
+  <text x="1072" y="975" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Mantiene adeudos de créditos?</text>
+  <rect x="1006" y="982" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="982" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="996" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.6.1</text>
+  <text x="1072" y="996" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Institución con adeudo</text>
+  <rect x="1006" y="1003" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="1003" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="1017" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.7</text>
+  <text x="1072" y="1017" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Ha recibido financiamiento?</text>
+  <rect x="1006" y="1024" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="1024" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="1038" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.7.1</text>
+  <text x="1072" y="1038" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Tipo de financiamiento recibido</text>
+  <rect x="1006" y="1045" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="1045" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="1059" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.7.2</text>
+  <text x="1072" y="1059" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Adeudo complicó acceso a préstamos?</text>
+  <rect x="1006" y="1066" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="1066" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="1080" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.8</text>
+  <text x="1072" y="1080" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Hay institución financiera en localidad?</text>
+  <rect x="1006" y="1087" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="1087" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="1101" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.9</text>
+  <text x="1072" y="1101" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Usa app bancaria?</text>
+  <rect x="1006" y="1108" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="1108" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="1122" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.9.1</text>
+  <text x="1072" y="1122" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Aplicación bancaria que utiliza</text>
+  <rect x="1006" y="1129" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="1129" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="1143" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.10</text>
+  <text x="1072" y="1143" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Sabe si ahorros están protegidos?</text>
+  <rect x="1006" y="1150" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="1150" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="1164" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.11</text>
+  <text x="1072" y="1164" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Ha tomado curso de finanzas?</text>
+  <rect x="1006" y="1171" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="1171" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="1185" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.12</text>
+  <text x="1072" y="1185" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Dispuesto a capacitarse en finanzas?</text>
+  <rect x="1006" y="1192" width="436" height="21" fill="#E3F4FB"/>
+  <rect x="1006" y="1192" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="1206" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.13</text>
+  <text x="1072" y="1206" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">¿Tiene algún seguro?</text>
+  <rect x="1006" y="1213" width="436" height="21" fill="#FFFFFF"/>
+  <rect x="1006" y="1213" width="3" height="21" fill="#B71C1C" opacity="0.55"/>
+  <text x="1016" y="1227" fill="#B71C1C" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8.13.1</text>
+  <text x="1072" y="1227" fill="#444" font-size="9.5" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Razón por la que no tiene seguro</text>
+  <rect x="63" y="1262" width="380" height="115" fill="#B0C4D4" rx="6"/>
+  <rect x="60" y="1259" width="380" height="115" fill="#FFFFFF" rx="6" stroke="#4CAF50" stroke-width="1.5"/>
+  <rect x="60" y="1259" width="380" height="32" fill="#2E7D32" rx="6"/>
+  <rect x="60" y="1285" width="380" height="8" fill="#2E7D32"/>
+  <text x="74" y="1281" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">📄  geopoint.csv  [18 localidades]</text>
+  <rect x="62" y="1301" width="376" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="1301" width="3" height="21" fill="#2E7D32" opacity="0.6"/>
+  <text x="74" y="1315" fill="#2E7D32" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Localidad</text>
+  <text x="160" y="1315" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">String</text>
+  <text x="225" y="1315" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Nombre de la localidad</text>
+  <rect x="62" y="1322" width="376" height="21" fill="#FFFFFF"/>
+  <rect x="62" y="1322" width="3" height="21" fill="#2E7D32" opacity="0.6"/>
+  <text x="74" y="1336" fill="#2E7D32" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Latitud</text>
+  <text x="160" y="1336" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Float</text>
+  <text x="225" y="1336" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Coordenada latitud WGS-84</text>
+  <rect x="62" y="1343" width="376" height="21" fill="#E3F4FB"/>
+  <rect x="62" y="1343" width="3" height="21" fill="#2E7D32" opacity="0.6"/>
+  <text x="74" y="1357" fill="#2E7D32" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Longitud</text>
+  <text x="160" y="1357" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Float</text>
+  <text x="225" y="1357" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Coordenada longitud WGS-84</text>
+  <rect x="475" y="1262" width="380" height="157" fill="#B0C4D4" rx="6"/>
+  <rect x="472" y="1259" width="380" height="157" fill="#FFFFFF" rx="6" stroke="#E65100" stroke-width="1.5"/>
+  <rect x="472" y="1259" width="380" height="32" fill="#E65100" rx="6"/>
+  <rect x="472" y="1285" width="380" height="8" fill="#E65100"/>
+  <text x="486" y="1281" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">⚙️  homogenize_rules.json  [reglas]</text>
+  <rect x="474" y="1301" width="376" height="21" fill="#E3F4FB"/>
+  <rect x="474" y="1301" width="3" height="21" fill="#E65100" opacity="0.6"/>
+  <text x="486" y="1315" fill="#E65100" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">si_no_cols</text>
+  <text x="592" y="1315" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Array</text>
+  <text x="657" y="1315" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">21 columnas normalizadas Sí/No</text>
+  <rect x="474" y="1322" width="376" height="21" fill="#FFFFFF"/>
+  <rect x="474" y="1322" width="3" height="21" fill="#E65100" opacity="0.6"/>
+  <text x="486" y="1336" fill="#E65100" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">reglas</text>
+  <text x="592" y="1336" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Object</text>
+  <text x="657" y="1336" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">12+ reglas de mapeo por columna</text>
+  <rect x="474" y="1343" width="376" height="21" fill="#E3F4FB"/>
+  <rect x="474" y="1343" width="3" height="21" fill="#E65100" opacity="0.6"/>
+  <text x="486" y="1357" fill="#E65100" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">canonical</text>
+  <text x="592" y="1357" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">String</text>
+  <text x="657" y="1357" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Valor canónico destino</text>
+  <rect x="474" y="1364" width="376" height="21" fill="#FFFFFF"/>
+  <rect x="474" y="1364" width="3" height="21" fill="#E65100" opacity="0.6"/>
+  <text x="486" y="1378" fill="#E65100" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">aliases</text>
+  <text x="592" y="1378" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Array</text>
+  <text x="657" y="1378" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Sinónimos a reemplazar</text>
+  <rect x="474" y="1385" width="376" height="21" fill="#E3F4FB"/>
+  <rect x="474" y="1385" width="3" height="21" fill="#E65100" opacity="0.6"/>
+  <text x="486" y="1399" fill="#E65100" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">regex</text>
+  <text x="592" y="1399" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Array</text>
+  <text x="657" y="1399" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Patrones regex opcionales</text>
+  <rect x="887" y="1262" width="380" height="178" fill="#B0C4D4" rx="6"/>
+  <rect x="884" y="1259" width="380" height="178" fill="#FFFFFF" rx="6" stroke="#1565C0" stroke-width="1.5"/>
+  <rect x="884" y="1259" width="380" height="32" fill="#1565C0" rx="6"/>
+  <rect x="884" y="1285" width="380" height="8" fill="#1565C0"/>
+  <text x="898" y="1281" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">📋  survey.json  [103 preguntas]</text>
+  <rect x="886" y="1301" width="376" height="21" fill="#E3F4FB"/>
+  <rect x="886" y="1301" width="3" height="21" fill="#1565C0" opacity="0.6"/>
+  <text x="898" y="1315" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">titulo</text>
+  <text x="984" y="1315" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">String</text>
+  <text x="1049" y="1315" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Título del cuestionario</text>
+  <rect x="886" y="1322" width="376" height="21" fill="#FFFFFF"/>
+  <rect x="886" y="1322" width="3" height="21" fill="#1565C0" opacity="0.6"/>
+  <text x="898" y="1336" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">secciones</text>
+  <text x="984" y="1336" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Array</text>
+  <text x="1049" y="1336" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">8 secciones del cuestionario</text>
+  <rect x="886" y="1343" width="376" height="21" fill="#E3F4FB"/>
+  <rect x="886" y="1343" width="3" height="21" fill="#1565C0" opacity="0.6"/>
+  <text x="898" y="1357" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">id_seccion</text>
+  <text x="984" y="1357" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">String</text>
+  <text x="1049" y="1357" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Número de sección</text>
+  <rect x="886" y="1364" width="376" height="21" fill="#FFFFFF"/>
+  <rect x="886" y="1364" width="3" height="21" fill="#1565C0" opacity="0.6"/>
+  <text x="898" y="1378" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">preguntas</text>
+  <text x="984" y="1378" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Array</text>
+  <text x="1049" y="1378" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Lista de preguntas por sección</text>
+  <rect x="886" y="1385" width="376" height="21" fill="#E3F4FB"/>
+  <rect x="886" y="1385" width="3" height="21" fill="#1565C0" opacity="0.6"/>
+  <text x="898" y="1399" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">id</text>
+  <text x="984" y="1399" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">String</text>
+  <text x="1049" y="1399" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">ID único de pregunta (ej. 3.2)</text>
+  <rect x="886" y="1406" width="376" height="21" fill="#FFFFFF"/>
+  <rect x="886" y="1406" width="3" height="21" fill="#1565C0" opacity="0.6"/>
+  <text x="898" y="1420" fill="#1565C0" font-size="9.5" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">texto</text>
+  <text x="984" y="1420" fill="#009FD4" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">String</text>
+  <text x="1049" y="1420" fill="#333" font-size="9" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Texto descriptivo de la pregunta</text>
+  <rect x="1184" y="1259" width="280" height="110" fill="#FFFFFF" rx="6" stroke="#8E9BAA" stroke-width="1"/>
+  <rect x="1184" y="1259" width="280" height="26" fill="#4A5568" rx="6"/>
+  <rect x="1184" y="1279" width="280" height="8" fill="#4A5568"/>
+  <text x="1198" y="1277" fill="#FFFFFF" font-size="11" font-weight="bold" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Leyenda</text>
+  <rect x="1196" y="1286" width="16" height="14" fill="#E3F4FB" rx="2" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="1218" y="1297" fill="#333" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Campo público</text>
+  <rect x="1196" y="1303" width="16" height="14" fill="#C8D4DE" rx="2" stroke="#8E9BAA" stroke-width="1.2"/>
+  <text x="1218" y="1314" fill="#333" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">Campo privado (dato personal)</text>
+  <rect x="1196" y="1320" width="16" height="14" fill="#FFFFFF" rx="2" stroke="#2E7D32" stroke-width="1.2"/>
+  <text x="1218" y="1331" fill="#333" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">geopoint.csv</text>
+  <rect x="1196" y="1337" width="16" height="14" fill="#FFFFFF" rx="2" stroke="#E65100" stroke-width="1.2"/>
+  <text x="1218" y="1348" fill="#333" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">homogenize_rules.json</text>
+  <rect x="1196" y="1354" width="16" height="14" fill="#FFFFFF" rx="2" stroke="#1565C0" stroke-width="1.2"/>
+  <text x="1218" y="1365" fill="#333" font-size="10" font-weight="normal" text-anchor="start" font-family="Segoe UI, Arial, sans-serif">survey.json (etiquetas)</text>
+  <text x="752" y="1412" fill="#8E9BAA" font-size="9" font-weight="normal" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif">UABCS · Proyecto SECIHT · 2025-2026</text>
+</svg>

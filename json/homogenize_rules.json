@@ -1,0 +1,458 @@
+{
+  "_comentario": "Reglas de homogenización — Encuesta Pesquera UABCS. Versión 1.0",
+  "_instrucciones": "Para añadir/editar reglas: edita 'mapeo' (sinónimos) o 'regex' (patrones) por pregunta. Los 'aliases' son case-insensitive y se comparan sin acentos internamente.",
+
+  "si_no_cols": [
+    "3.5", "3.14", "3.15", "3.17",
+    "5.4",
+    "6.3",
+    "7.4", "7.6", "7.7", "7.9", "7.10",
+    "8.1", "8.2", "8.5", "8.6", "8.7", "8.8", "8.9", "8.10", "8.11", "8.12", "8.13"
+  ],
+
+  "reglas": {
+
+    "3.3": {
+      "_descripcion": "Nivel de educación — corregir errores tipográficos",
+      "mapeo": [
+        {
+          "canonical": "Preparatoria terminada",
+          "aliases": ["Prepatatoria terminada", "Preparatoria  terminada", "preparatoria terminada"]
+        },
+        {
+          "canonical": "Primaria terminada",
+          "aliases": ["primaria terminada"]
+        },
+        {
+          "canonical": "Secundaria terminada",
+          "aliases": ["secundaria terminada"]
+        },
+        {
+          "canonical": "Universidad",
+          "aliases": ["universidad", "Universitario", "Licenciatura", "licenciatura"]
+        }
+      ]
+    },
+
+    "3.10": {
+      "_descripcion": "Tipo de energía eléctrica — unificar variantes de CFE",
+      "mapeo": [
+        {
+          "canonical": "Energía CFE",
+          "aliases": ["Energía eléctrica (CFE)", "Energia electrica (CFE)", "energia CFE", "Energia CFE"]
+        }
+      ]
+    },
+
+    "3.5_3.7": {
+      "_descripcion": "Ocupación del hijo/hijos — unificar variantes de caso y tipografía",
+      "mapeo": [
+        {
+          "canonical": "Estudiante",
+          "aliases": [
+            "Estudiantes", "estudiante", "estudiantes", "ESTUDIANTE", "ESTUDIANTES",
+            "EStudiante", "EStudiantes", "Estudiando", "Estudia"
+          ]
+        },
+        {
+          "canonical": "Trabajadores",
+          "aliases": [
+            "TRABAJADORES", "Trabajador", "TRABAJADORAS", "Trabajando",
+            "TRABAJANDO", "TRABAJANDOS", "TRABAJORES", "Trabajan en empresa"
+          ]
+        },
+        {
+          "canonical": "Pescador",
+          "aliases": ["Pescadores", "pescador", "pescadores", "Pesca libre"]
+        },
+        {
+          "canonical": "Pescador libre",
+          "aliases": ["Pescadores libres", "Pescadores Libres"]
+        },
+        {
+          "canonical": "Acuacultores, Estudiante",
+          "aliases": ["Acuacultores, estudiante"]
+        },
+        {
+          "canonical": "Hogar y empresa",
+          "aliases": ["Hogar, empresa"]
+        }
+      ]
+    },
+
+    "3.5_3.6": {
+      "_descripcion": "Nivel de educación (segunda instancia)",
+      "mapeo": [
+        {
+          "canonical": "Preparatoria",
+          "aliases": ["preparatoria", "prepa", "Prepa", "Bachillerato", "bachillerato"]
+        },
+        {
+          "canonical": "Universidad",
+          "aliases": ["universidad", "Universitario", "Licenciatura"]
+        }
+      ]
+    },
+
+    "3.11": {
+      "_descripcion": "Fuente de agua — unificar variantes",
+      "mapeo": [
+        {
+          "canonical": "Agua conectada a red municipal",
+          "aliases": ["Conectada a red municipal", "Red municipal", "red municipal", "Agua de red", "agua de red"]
+        },
+        {
+          "canonical": "Abasto por pipa",
+          "aliases": ["abasto por pipa", "pipa", "Pipa", "Agua de pipa"]
+        },
+        {
+          "canonical": "Autoabastecimiento",
+          "aliases": ["autoabastecimiento", "Autoabasto", "autoabasto", "pozo", "Pozo", "noria", "Agua autoabastecimiento"]
+        }
+      ]
+    },
+
+    "3.14_3.14.1": {
+      "_descripcion": "Institución de salud",
+      "mapeo": [
+        {
+          "canonical": "IMSS",
+          "aliases": ["imss", "IMSS", "Instituto Mexicano del Seguro Social"]
+        },
+        {
+          "canonical": "ISSSTE",
+          "aliases": ["issste", "ISSSTE"]
+        },
+        {
+          "canonical": "INSABI",
+          "aliases": ["insabi", "INSABI", "IMSS Bienestar", "Bienestar", "Seguro Popular"]
+        }
+      ]
+    },
+
+    "3.15_3.15.1_3.15.1.1": {
+      "_descripcion": "Nombre de la enfermedad/padecimiento — normalizar capitalización",
+      "mapeo": [
+        {
+          "canonical": "Asma",
+          "aliases": ["asma", "ASMA"]
+        },
+        {
+          "canonical": "Triglicéridos",
+          "aliases": ["TRIGLICÉRIDOS", "triglicéridos", "Trigliceridos", "trigliceridos", "TRIGLICERIDOS"]
+        },
+        {
+          "canonical": "Tiroides",
+          "aliases": ["tiroides", "TIROIDES"]
+        }
+      ]
+    },
+
+    "7.2": {
+      "_descripcion": "Actividades con teléfono — corregir 'pronostico' sin tilde en strings compuestos",
+      "regex": [
+        { "patron": "pronostico", "reemplazo": "pron\u00f3stico" }
+      ]
+    },
+
+    "7.3": {
+      "_descripcion": "Actividades con computadora — corregir 'pronostico' sin tilde en strings compuestos",
+      "regex": [
+        { "patron": "pronostico", "reemplazo": "pron\u00f3stico" }
+      ]
+    },
+
+    "7.9_7.9.2": {
+      "_descripcion": "Razón por la que no usa ciertos servicios digitales — muchas variantes de 'no le interesa'",
+      "mapeo": [
+        {
+          "canonical": "No le interesa",
+          "aliases": [
+            "NO LE INTERESA", "NO LE INTERESA ", "NO LE INTERESAN",
+            "NO LE INTERTESA", "No me interesa", "No me interesa ",
+            "no se usan", "No le interesan", "No le interesa.",
+            "no le interesa", "no me interesa"
+          ]
+        },
+        {
+          "canonical": "No tiene tiempo",
+          "aliases": ["no tiene tiempo", "No Tiene Tiempo", "falta de tiempo", "Falta de tiempo"]
+        }
+      ]
+    },
+
+    "5.4_5.4.1": {
+      "_descripcion": "Aspiraciones económicas — normalizar variantes de actividades",
+      "mapeo": [
+        {
+          "canonical": "Turismo y pesca deportiva",
+          "aliases": [
+            "Tours pesca mangles", "Turs de pesca", "Turismo , pesca",
+            "Pesca deportiva", "turist", "Turist"
+          ]
+        },
+        {
+          "canonical": "Ostricultura",
+          "aliases": [
+            "0STRICULTURA", "Turs a los cultivos de ostion",
+            "cultivo de ostión", "Cultivo de ostión", "osticultura"
+          ]
+        },
+        {
+          "canonical": "Trabajo estable",
+          "aliases": [
+            "quisiera un trabajo estable", "Buscar un empleo seguro",
+            "trabajar en una empresa manufacturera", "SER MAESTRA"
+          ]
+        },
+        {
+          "canonical": "Emprendimiento / negocio",
+          "aliases": [
+            "Puesto de comida", "Venta de agua purificada", "venta de carne seca",
+            "camión de materiales", "Carpintería", "CRIADERO DE CHIVAS"
+          ]
+        },
+        {
+          "canonical": "Inversiones / ahorro",
+          "aliases": ["Inversiones", "invertir"]
+        }
+      ]
+    },
+
+    "2.5": {
+      "_descripcion": "Tipo de permisionario / categoría pesquera",
+      "mapeo": [
+        {
+          "canonical": "Pescador libre",
+          "aliases": ["pescador libre", "libre", "Libre"]
+        },
+        {
+          "canonical": "Cooperativista",
+          "aliases": ["cooperativista", "Cooperativa", "cooperativa", "socio cooperativa"]
+        },
+        {
+          "canonical": "Permisionario",
+          "aliases": ["permisionario", "permiso", "Permiso"]
+        }
+      ]
+    },
+
+    "3.4": {
+      "_descripcion": "Estado civil",
+      "mapeo": [
+        {
+          "canonical": "Unión Libre",
+          "aliases": ["union libre", "Union Libre", "unión libre", "concubinato", "Concubinato", "pareja"]
+        },
+        {
+          "canonical": "Casado",
+          "aliases": ["casado", "casada", "Casada"]
+        },
+        {
+          "canonical": "Soltero",
+          "aliases": ["soltero", "soltera", "Soltera"]
+        },
+        {
+          "canonical": "Divorciado",
+          "aliases": ["divorciado", "divorciada", "Divorciada", "separado", "Separado"]
+        }
+      ]
+    },
+
+    "5.1": {
+      "_descripcion": "Canal de comercialización del producto",
+      "mapeo": [
+        {
+          "canonical": "Intermediario",
+          "aliases": ["intermediario", "coyote", "Coyote", "revendedor"]
+        },
+        {
+          "canonical": "Restaurantes",
+          "aliases": ["restaurantes", "restaurant", "Restaurant", "fondas", "Fondas"]
+        },
+        {
+          "canonical": "Mercados locales",
+          "aliases": ["mercados locales", "mercado", "Mercado", "tianguis"]
+        },
+        {
+          "canonical": "Locales a pie de playa",
+          "aliases": ["locales a pie de playa", "en playa", "En playa", "directo en playa"]
+        }
+      ]
+    },
+
+    "7.4_7.4.1": {
+      "_descripcion": "Tipo de conexión a internet",
+      "mapeo": [
+        {
+          "canonical": "Conexión fija (modem WIFI)",
+          "aliases": ["Conexión fija", "modem", "Modem", "WIFI fijo", "wifi fijo", "internet fijo"]
+        },
+        {
+          "canonical": "Conexión móvil (mediante dispositivos como celular, Tablet, etc.)",
+          "aliases": [
+            "Conexión móvil", "celular", "Celular", "datos móviles",
+            "Datos móviles", "internet celular", "4G", "3G"
+          ]
+        },
+        {
+          "canonical": "Ambas (fija y móvil)",
+          "aliases": ["Ambas", "ambas", "las dos", "Las dos", "fija y movil", "fija y móvil"]
+        }
+      ]
+    },
+
+    "4.1": {
+      "_descripcion": "Modalidad de trabajo en la pesca",
+      "mapeo": [
+        {
+          "canonical": "Sólo",
+          "aliases": ["solo", "Solo", "sólo", "independiente", "Independiente"]
+        },
+        {
+          "canonical": "Socios",
+          "aliases": ["socios", "con socios", "Con socios", "en sociedad"]
+        },
+        {
+          "canonical": "Contrato",
+          "aliases": ["contrato", "Con contrato", "empleado", "Empleado"]
+        },
+        {
+          "canonical": "Ambas",
+          "aliases": ["ambas", "Ambas", "las dos formas"]
+        }
+      ]
+    },
+
+    "1.1": {
+      "_descripcion": "Localidad del encuestado — normalizar variantes de nombres de lugares",
+      "mapeo": [
+        {
+          "canonical": "Puerto Agua Verde",
+          "aliases": ["Agua verde", "Puerto agua verde"]
+        },
+        {
+          "canonical": "Guerrero Negro",
+          "aliases": [
+            "Guerrero negro", "Guerrer Negro",
+            "Guerrero negro b.c.s", "Guerrero negro baja california sur"
+          ]
+        },
+        {
+          "canonical": "La Poza Grande",
+          "aliases": ["La Poza Grande", "LA POZAGRANDE"]
+        },
+        {
+          "canonical": "San Carlos",
+          "aliases": ["san carlos", "Puerto San Carlos"]
+        },
+        {
+          "canonical": "El Garambullo",
+          "aliases": ["El Garambullo (Zaragoza)", "Campo el Garambullo", "Estero de Garambullo"]
+        },
+        {
+          "canonical": "Mulegé",
+          "aliases": ["Mulege"]
+        }
+      ]
+    },
+
+    "5.1_5.1.1": {
+      "_descripcion": "Tipo de comprador — unificar variantes de Cooperativa y N/A",
+      "mapeo": [
+        {
+          "canonical": "Cooperativa",
+          "aliases": ["cooperativa", "COOPERATIVA"]
+        },
+        {
+          "canonical": "N/A",
+          "aliases": ["n/a", "N/a", "na", "NA"]
+        }
+      ]
+    },
+
+    "6.4_6.4.1": {
+      "_descripcion": "Especie cultivada en acuicultura — unificar variantes de Ostión y N/A",
+      "mapeo": [
+        {
+          "canonical": "Ostión",
+          "aliases": [
+            "Ostion", "OSTION", "ostion", "OSTIÓN", "ostión", "OSTIONES", "Ostiones"
+          ]
+        },
+        {
+          "canonical": "Ostión japonés",
+          "aliases": [
+            "Ostion japones", "Ostión japones", "OSTION JAPONES",
+            "Ostion Japones", "Ostión Japonés"
+          ]
+        },
+        {
+          "canonical": "Callo de hacha",
+          "aliases": ["callo de hacha", "CALLO DE HACHA"]
+        },
+        {
+          "canonical": "N/A",
+          "aliases": ["n/a", "N/a", "Nd", "NAN", "..."]
+        }
+      ]
+    },
+
+    "6.2": {
+      "_descripcion": "Razón para abandonar la acuicultura — separar NA, no-aplica, ninguna y razones reales",
+      "mapeo": [
+        {
+          "canonical": "N/A",
+          "aliases": [
+            "n/a", "N/a", "Nd", "NAN", "--", "....", "Nasa"
+          ]
+        },
+        {
+          "canonical": "No la ha abandonado",
+          "aliases": [
+            "No", "No hay", "No la e dejado", "no e abandonado",
+            "no la e abandonado", "Nunca la abandonó", "no e realizado",
+            "no esta en eso", "No se"
+          ]
+        },
+        {
+          "canonical": "Ninguna",
+          "aliases": ["NINGUNA", "ninguna"]
+        },
+        {
+          "canonical": "Falta de insumos",
+          "aliases": ["FALTA DE INSUMOS"]
+        },
+        {
+          "canonical": "Falta de apoyo",
+          "aliases": ["falta de apoyo", "FALTA DE APOYO"]
+        },
+        {
+          "canonical": "Encontré otro trabajo",
+          "aliases": ["encontre otro trabajo", "ENCONTRE OTRO TRABAJO"]
+        }
+      ]
+    },
+
+    "8.3": {
+      "_descripcion": "Razón por la que no tiene cuenta bancaria",
+      "mapeo": [
+        {
+          "canonical": "No la necesita",
+          "aliases": ["No la necesita", "no la necesita", "No lo necesita"]
+        },
+        {
+          "canonical": "Ingresos son insuficientes",
+          "aliases": ["ingresos son insuficientes", "no tengo ingresos suficientes", "falta de dinero"]
+        },
+        {
+          "canonical": "Prefiere otras formas de ahorrar (tanda, guardar en casa, etc.)",
+          "aliases": [
+            "tanda", "Tanda", "guarda en casa", "ahorra en casa",
+            "prefiere guardar en casa"
+          ]
+        }
+      ]
+    }
+  }
+}
