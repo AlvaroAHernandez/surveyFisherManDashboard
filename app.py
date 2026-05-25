@@ -320,41 +320,64 @@ def main():
 
     tabs = st.tabs([f"📋 {s['titulo']}" for s in cuestionario['secciones']] + ["🗺️ Mapa", "📈 Análisis Cruzado", "📊 Datos Crudos"])
 
-    for idx, seccion in enumerate(cuestionario['secciones']):
-        with tabs[idx]:
-            st.markdown(f"<h2 style='color: {UABCS_COLORS['azul_marino']};'>{seccion['titulo']}</h2>",
-                       unsafe_allow_html=True)
+    def renderizar_seccion(seccion_data, df_data):
+        st.markdown(f"<h2 style='color: {UABCS_COLORS['azul_marino']};'>{seccion_data['titulo']}</h2>",
+                   unsafe_allow_html=True)
 
-            for pregunta in seccion['preguntas']:
-                col_id = pregunta['id']
+        preguntas_validas = [p for p in seccion_data['preguntas'] if p['id'] in df_data.columns]
 
-                if col_id not in df_filtrado.columns:
+        i = 0
+        while i < len(preguntas_validas):
+            pregunta = preguntas_validas[i]
+            tipo = pregunta['tipo']
+
+            usar_dos_columnas = tipo in ['opcion_multiple', 'si_no']
+
+            if usar_dos_columnas and i + 1 < len(preguntas_validas):
+                siguiente_pregunta = preguntas_validas[i + 1]
+                siguiente_tipo = siguiente_pregunta['tipo']
+
+                if siguiente_tipo in ['opcion_multiple', 'si_no']:
+                    col1, col2 = st.columns(2)
+
+                    with col1:
+                        st.markdown(crear_tarjeta_pregunta(pregunta['texto']), unsafe_allow_html=True)
+                        visualizar_por_tipo(df_data, pregunta['id'], pregunta['texto'], tipo)
+
+                    with col2:
+                        st.markdown(crear_tarjeta_pregunta(siguiente_pregunta['texto']), unsafe_allow_html=True)
+                        visualizar_por_tipo(df_data, siguiente_pregunta['id'], siguiente_pregunta['texto'], siguiente_tipo)
+
+                    i += 2
                     continue
 
-                with st.container():
-                    st.markdown(crear_tarjeta_pregunta(pregunta['texto']), unsafe_allow_html=True)
+            st.markdown(crear_tarjeta_pregunta(pregunta['texto']), unsafe_allow_html=True)
+            visualizar_por_tipo(df_data, pregunta['id'], pregunta['texto'], tipo)
+            st.markdown("")
+            i += 1
 
-                    tipo = pregunta['tipo']
+    def visualizar_por_tipo(df_data, col_id, titulo, tipo):
+        if tipo in ['opcion_multiple', 'si_no']:
+            visualizar_pregunta_opciones(df_data, col_id, titulo, {})
+        elif tipo == 'seleccion_multiple':
+            visualizar_pregunta_seleccion_multiple(df_data, col_id, titulo)
+        elif tipo == 'numerico':
+            visualizar_pregunta_numerica(df_data, col_id, titulo)
+        elif tipo in ['texto_abierto', 'texto_libre', 'fecha']:
+            visualizar_pregunta_texto(df_data, col_id, titulo)
+        else:
+            visualizar_pregunta_texto(df_data, col_id, titulo)
 
-                    if tipo in ['opcion_multiple', 'si_no']:
-                        visualizar_pregunta_opciones(df_filtrado, col_id, pregunta['texto'], pregunta)
-                    elif tipo == 'seleccion_multiple':
-                        visualizar_pregunta_seleccion_multiple(df_filtrado, col_id, pregunta['texto'])
-                    elif tipo == 'numerico':
-                        visualizar_pregunta_numerica(df_filtrado, col_id, pregunta['texto'])
-                    elif tipo in ['texto_abierto', 'texto_libre', 'fecha']:
-                        visualizar_pregunta_texto(df_filtrado, col_id, pregunta['texto'])
-                    else:
-                        visualizar_pregunta_texto(df_filtrado, col_id, pregunta['texto'])
-
-                    st.markdown("")
+    for idx, seccion in enumerate(cuestionario['secciones']):
+        with tabs[idx]:
+            renderizar_seccion(seccion, df_filtrado)
 
     with tabs[-2]:
         st.markdown(f"<h2 style='color: {UABCS_COLORS['azul_marino']};'>Distribución Geográfica</h2>",
                    unsafe_allow_html=True)
         crear_mapa_localidades(gdf_localidades, df_filtrado)
 
-    with tabs[-1]:
+    with tabs[-2]:
         st.markdown(f"<h2 style='color: {UABCS_COLORS['azul_marino']};'>Análisis de Correlaciones</h2>",
                    unsafe_allow_html=True)
 
@@ -389,6 +412,52 @@ def main():
                     st.plotly_chart(fig, use_container_width=True)
             else:
                 st.info("No hay datos para cruzar estas preguntas")
+
+    with tabs[-1]:
+        st.markdown(f"<h2 style='color: {UABCS_COLORS['azul_marino']};'>Datos Crudos</h2>",
+                   unsafe_allow_html=True)
+
+        st.markdown("""
+        Aquí se muestran todas las respuestas sin procesar de las encuestas.
+        Útil para auditoría de datos, validación y análisis externos.
+        """)
+
+        col1, col2 = st.columns([3, 1])
+
+        with col2:
+            formato_export = st.radio("Formato", ["DataFrame", "CSV"], horizontal=True)
+
+        if len(df_filtrado) == 0:
+            st.warning("⚠️ No hay datos que mostrar con los filtros actuales")
+        else:
+            st.markdown(f"**📊 Total de respuestas:** {len(df_filtrado)}")
+
+            if formato_export == "DataFrame":
+                st.dataframe(df_filtrado, use_container_width=True, height=500)
+            else:
+                csv = df_filtrado.to_csv(index=False, encoding='utf-8')
+                st.download_button(
+                    label="📥 Descargar CSV",
+                    data=csv,
+                    file_name="encuestas_pescadores.csv",
+                    mime="text/csv"
+                )
+                st.dataframe(df_filtrado, use_container_width=True, height=500)
+
+            st.markdown("---")
+            st.markdown("**Estadísticas de Cobertura:**")
+
+            cobertura_col1, cobertura_col2, cobertura_col3 = st.columns(3)
+
+            with cobertura_col1:
+                porcentaje_respuestas = (df_filtrado.notna().sum().sum() / (len(df_filtrado) * len(df_filtrado.columns)) * 100)
+                st.metric("Completitud de Datos", f"{porcentaje_respuestas:.1f}%")
+
+            with cobertura_col2:
+                st.metric("Total de Campos", len(df_filtrado.columns))
+
+            with cobertura_col3:
+                st.metric("Total de Registros", len(df_filtrado))
 
 if __name__ == "__main__":
     main()
