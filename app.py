@@ -193,14 +193,23 @@ def visualizar_pregunta_opciones(df, col_id, titulo, pregunta_info=None):
     col1, col2 = st.columns([1.5, 1])
 
     with col1:
-        fig = px.pie(
-            conteo, names='Opción', values='Cantidad',
-            color_discrete_sequence=px.colors.sequential.Blues[::-1],
-            hole=0.3
-        )
-        fig.update_traces(textposition='inside', textinfo='label+percent')
-        fig.update_layout(height=350, showlegend=True, margin=dict(l=20, r=20, t=20, b=20))
-        st.plotly_chart(fig, use_container_width=True, key=f"pie_{col_id}")
+        if len(conteo) <= 4:
+            fig = px.pie(
+                conteo, names='Opción', values='Cantidad',
+                color_discrete_sequence=px.colors.sequential.Blues[::-1],
+                hole=0.4
+            )
+            fig.update_traces(textposition='inside', textinfo='label+percent')
+            fig.update_layout(height=350, showlegend=True, margin=dict(l=20, r=20, t=20, b=20))
+            st.plotly_chart(fig, use_container_width=True, key=f"pie_{col_id}")
+        else:
+            conteo_sorted = conteo.sort_values('Cantidad', ascending=True)
+            fig = px.bar(
+                conteo_sorted, y='Opción', x='Cantidad', text_auto=True, orientation='h',
+                color='Cantidad', color_continuous_scale='Blues'
+            )
+            fig.update_layout(height=350, showlegend=False, margin=dict(l=20, r=20, t=20, b=20))
+            st.plotly_chart(fig, use_container_width=True, key=f"bar_cat_{col_id}")
 
     with col2:
         st.markdown("**Estadísticas**")
@@ -225,9 +234,12 @@ def visualizar_pregunta_seleccion_multiple(df, col_id, titulo):
     serie_exploded = serie_exploded.astype(str)
     conteo = serie_exploded.value_counts().reset_index()
     conteo.columns = ['Opción', 'Cantidad']
+    total_encuestados = len(serie)
+    conteo['Porcentaje (%)'] = (conteo['Cantidad'] / total_encuestados * 100).round(1)
     conteo = conteo.sort_values('Cantidad', ascending=True).tail(15)
 
-    fig = px.bar(conteo, y='Opción', x='Cantidad', text_auto=True, orientation='h',
+    fig = px.bar(conteo, y='Opción', x='Porcentaje (%)', text_auto=True, orientation='h',
+                hover_data=['Cantidad'],
                 color='Cantidad', color_continuous_scale='Blues')
     fig.update_layout(height=400, showlegend=False, margin=dict(l=20, r=20, t=20, b=20))
     st.plotly_chart(fig, use_container_width=True, key=f"bar_{col_id}")
@@ -240,20 +252,23 @@ def visualizar_pregunta_numerica(df, col_id, titulo):
         st.info("📭 Sin datos disponibles")
         return
 
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
         st.metric("📊 Promedio", f"{serie.mean():.2f}", delta=None)
     with col2:
-        st.metric("📈 Máximo", f"{serie.max():.0f}", delta=None)
+        st.metric("🎯 Mediana", f"{serie.median():.2f}", delta=None)
     with col3:
-        st.metric("📉 Mínimo", f"{serie.min():.0f}", delta=None)
+        st.metric("📈 Máximo", f"{serie.max():.0f}", delta=None)
     with col4:
+        st.metric("📉 Mínimo", f"{serie.min():.0f}", delta=None)
+    with col5:
         st.metric("👥 Respuestas", f"{len(serie)}", delta=None)
 
     st.markdown("**Distribución**")
     fig = px.histogram(
         x=serie, nbins=20,
+        marginal="box",
         color_discrete_sequence=[UABCS_COLORS['azul']]
     )
     fig.update_layout(
