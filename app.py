@@ -23,7 +23,14 @@ UABCS_COLORS = {
 }
 
 if not firebase_admin._apps:
-    cred = credentials.Certificate("surver-fisherman-uabcs-firebase-adminsdk-fbsvc-5c73dae273.json")
+    try:
+        # Intenta cargar credenciales locales (desarrollo)
+        cred = credentials.Certificate("surver-fisherman-uabcs-firebase-adminsdk-fbsvc-5c73dae273.json")
+    except FileNotFoundError:
+        # Si no existe, usa las credenciales secretas de Streamlit Cloud (producción)
+        firebase_creds = dict(st.secrets["firebase"])
+        cred = credentials.Certificate(firebase_creds)
+        
     firebase_admin.initialize_app(cred)
 
 db = firestore.client()
