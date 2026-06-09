@@ -1,13 +1,17 @@
 import streamlit as st
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials, firestore, auth as firebase_auth
 import pandas as pd
 import json
 import plotly.express as px
 from pathlib import Path
 from scipy.stats import chi2_contingency
+import requests
 
 BASE_DIR = Path(__file__).parent
+
+FIREBASE_WEB_API_KEY = "AIzaSyCoA7X87ZaLLmVx0xVWlivb1eG7igRoZws"
+FIREBASE_AUTH_URL = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={FIREBASE_WEB_API_KEY}"
 
 UABCS_COLORS = {
     "azul": "#009FD4",
@@ -429,7 +433,99 @@ def agregar_estilos():
     </style>
     """, unsafe_allow_html=True)
 
+def autenticar_usuario(email: str, password: str) -> dict:
+    """Autentica al usuario contra Firebase Auth REST API. Retorna dict con resultado."""
+    payload = {"email": email, "password": password, "returnSecureToken": True}
+    try:
+        response = requests.post(FIREBASE_AUTH_URL, json=payload, timeout=10)
+        data = response.json()
+        if response.status_code == 200:
+            return {"ok": True, "email": data.get("email"), "uid": data.get("localId"), "token": data.get("idToken")}
+        error_msg = data.get("error", {}).get("message", "ERROR_DESCONOCIDO")
+        mensajes = {
+            "EMAIL_NOT_FOUND": "El correo no está registrado.",
+            "INVALID_PASSWORD": "Contraseña incorrecta.",
+            "USER_DISABLED": "Esta cuenta ha sido deshabilitada.",
+            "INVALID_LOGIN_CREDENTIALS": "Correo o contraseña incorrectos.",
+            "TOO_MANY_ATTEMPTS_TRY_LATER": "Demasiados intentos fallidos. Intenta más tarde.",
+        }
+        return {"ok": False, "error": mensajes.get(error_msg, f"Error: {error_msg}")}
+    except requests.exceptions.Timeout:
+        return {"ok": False, "error": "Tiempo de espera agotado. Verifica tu conexión."}
+    except Exception as e:
+        return {"ok": False, "error": f"Error de conexión: {str(e)}"}
+
+
+def mostrar_pantalla_login():
+    """Renderiza la pantalla de inicio de sesión con branding UABCS."""
+    st.set_page_config(page_title="Acceso – Dashboard Pesquero UABCS", layout="centered", initial_sidebar_state="collapsed")
+
+    st.markdown(f"""
+    <style>
+    .login-container {{
+        max-width: 420px;
+        margin: 0 auto;
+        padding: 40px 32px;
+        background: #FFFFFF;
+        border-radius: 12px;
+        border-top: 6px solid {UABCS_COLORS["azul"]};
+        box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    }}
+    .login-title {{
+        color: {UABCS_COLORS["azul_marino"]};
+        font-size: 1.5rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 4px;
+    }}
+    .login-subtitle {{
+        color: {UABCS_COLORS["gris"]};
+        font-size: 0.88rem;
+        text-align: center;
+        margin-bottom: 28px;
+    }}
+    </style>
+    """, unsafe_allow_html=True)
+
+    col_l, col_c, col_r = st.columns([1, 2, 1])
+    with col_c:
+        try:
+            st.image(str(BASE_DIR / "logo_uabcs.png"), width=120)
+        except Exception:
+            pass
+
+    st.markdown(f"<p class='login-title'>Dashboard de Encuestas Pesqueras</p>", unsafe_allow_html=True)
+    st.markdown(f"<p class='login-subtitle'>Universidad Autónoma de Baja California Sur<br>Ingresa tus credenciales para continuar</p>", unsafe_allow_html=True)
+    st.markdown(f"<hr style='border: 2px solid {UABCS_COLORS['amarillo']}; margin-bottom: 24px;'>", unsafe_allow_html=True)
+
+    with st.form("form_login", clear_on_submit=False):
+        email = st.text_input("Correo electrónico", placeholder="usuario@uabcs.mx")
+        password = st.text_input("Contraseña", type="password", placeholder="••••••••")
+        submitted = st.form_submit_button("Iniciar sesión", use_container_width=True, type="primary")
+
+    if submitted:
+        if not email or not password:
+            st.error("Por favor ingresa tu correo y contraseña.")
+        else:
+            with st.spinner("Verificando credenciales..."):
+                resultado = autenticar_usuario(email.strip(), password)
+            if resultado["ok"]:
+                st.session_state["autenticado"] = True
+                st.session_state["usuario_email"] = resultado["email"]
+                st.session_state["usuario_uid"] = resultado["uid"]
+                st.rerun()
+            else:
+                st.error(resultado["error"])
+
+
 def main():
+    if "autenticado" not in st.session_state:
+        st.session_state["autenticado"] = False
+
+    if not st.session_state["autenticado"]:
+        mostrar_pantalla_login()
+        return
+
     st.set_page_config(page_title="Dashboard Pesquero UABCS", layout="wide", initial_sidebar_state="expanded")
 
     agregar_estilos()
@@ -452,6 +548,19 @@ def main():
         st.warning("⚠️ No hay datos disponibles en Firestore.")
         return
 
+    usuario_email = st.session_state.get("usuario_email", "")
+    st.sidebar.markdown(
+        f"<div style='padding:8px 0; color:{UABCS_COLORS['gris']}; font-size:0.85rem;'>"
+        f"👤 <strong>{usuario_email}</strong></div>",
+        unsafe_allow_html=True,
+    )
+    if st.sidebar.button("Cerrar sesión", use_container_width=True):
+        st.session_state["autenticado"] = False
+        st.session_state["usuario_email"] = ""
+        st.session_state["usuario_uid"] = ""
+        st.rerun()
+
+    st.sidebar.markdown(f"<hr style='border: 1px solid {UABCS_COLORS['amarillo']};'>", unsafe_allow_html=True)
     st.sidebar.markdown(f"<h3 style='color: {UABCS_COLORS['azul']};'>🔍 Filtros</h3>", unsafe_allow_html=True)
 
     filtros = {}

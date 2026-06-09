@@ -1,19 +1,19 @@
-Localidad,Latitud,Longitud
-Cabo San Lucas,22.8898,-109.9789
-La Paz,24.1441,-110.3127
-Loreto,25.9589,-111.3944
-Ciudad Constitución,24.7136,-112.0658
-Puerto Escondido,25.3667,-111.3333
-Mulegé,26.0952,-111.9627
-Santa Rosalía,26.9307,-111.9769
-San Ignacio,27.2936,-112.8891
-Guerrero Negro,27.9769,-114.0622
-El Cardón,26.5,-111.4167
-La Ribera,23.4,-109.6833
-Los Cabos,23.6345,-109.9789
-Buena Vista,23.7647,-109.7267
-Las Bariles,23.6403,-109.9439
-Todos Santos,23.4533,-110.2167
-Cerritos,24.2333,-109.7
-El Divisadero,25.4,-110.7
-San José del Cabo,23.6552,-109.6784
+Localidad,Latitud,Longitud,Municipio
+La Poza Grande,25.5892,-112.0069,Comondú
+Las Barrancas,26.0461,-112.2708,Comondú
+Puerto San Carlos,24.7892,-112.1067,Comondú
+San Buto,25.1333,-111.9167,Comondú
+San Juanico,26.2575,-112.4739,Comondú
+Zaragoza (El Garambullo),25.2639,-112.1469,Comondú
+El Manglito,24.1561,-110.3283,La Paz
+El Sargento,24.0808,-109.9886,La Paz
+La Paz,24.1441,-110.3127,La Paz
+La Ventana,24.0642,-109.9961,La Paz
+Puerto Chale,24.4231,-111.5542,La Paz
+Puerto Agua Verde,25.5133,-111.0744,Loreto
+Bahía Asunción,27.135,-114.2961,Mulegé
+Bahía Tortugas,27.6936,-114.8878,Mulegé
+Guerrero Negro,27.9769,-114.0622,Mulegé
+La Bocana,26.7644,-113.6842,Mulegé
+Mulegé,26.0952,-111.9627,Mulegé
+Punta Abreojos,26.7028,-113.5656,Mulegé

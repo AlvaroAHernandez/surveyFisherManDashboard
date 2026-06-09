@@ -22,6 +22,44 @@ UABCS_COLORS <- list(
 
 PLOTLY_BG <- "rgba(0,0,0,0)"   # fondo totalmente transparente
 
+# =================== AUTENTICACIÓN FIREBASE ===================
+
+FIREBASE_WEB_API_KEY <- "AIzaSyCoA7X87ZaLLmVx0xVWlivb1eG7igRoZws"
+
+autenticar_usuario <- function(email, password) {
+  url <- paste0(
+    "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=",
+    FIREBASE_WEB_API_KEY
+  )
+  tryCatch({
+    resp <- httr::POST(
+      url,
+      body   = jsonlite::toJSON(
+        list(email = email, password = password, returnSecureToken = TRUE),
+        auto_unbox = TRUE
+      ),
+      httr::content_type_json(),
+      httr::timeout(10)
+    )
+    data <- httr::content(resp, as = "parsed")
+    if (httr::status_code(resp) == 200) {
+      list(ok = TRUE, email = data$email, uid = data$localId)
+    } else {
+      error_msg <- data$error$message %||% "ERROR_DESCONOCIDO"
+      mensajes <- list(
+        EMAIL_NOT_FOUND             = "El correo no está registrado.",
+        INVALID_PASSWORD            = "Contraseña incorrecta.",
+        USER_DISABLED               = "Esta cuenta ha sido deshabilitada.",
+        INVALID_LOGIN_CREDENTIALS   = "Correo o contraseña incorrectos.",
+        TOO_MANY_ATTEMPTS_TRY_LATER = "Demasiados intentos fallidos. Intenta más tarde."
+      )
+      list(ok = FALSE, error = mensajes[[error_msg]] %||% paste("Error:", error_msg))
+    }
+  }, error = function(e) {
+    list(ok = FALSE, error = paste("Error de conexión:", conditionMessage(e)))
+  })
+}
+
 # =================== CONFIGURACIÓN FIREBASE ===================
 
 CRED_PATH           <- "surver-fisherman-uabcs-firebase-adminsdk-fbsvc-5c73dae273.json"
@@ -114,9 +152,29 @@ cargar_desde_firebase <- function() {
   if (length(all_docs) == 0) return(data.frame())
   rows <- lapply(all_docs, parse_firestore_doc)
   dplyr::bind_rows(lapply(rows, function(r) {
-    r[vapply(r, is.list, logical(1))] <- NA          # eliminar listas anidadas
-    r <- lapply(r, function(v) if (length(v) == 1) as.character(v) else NA_character_)
-    as.data.frame(r, stringsAsFactors = FALSE, check.names = FALSE)
+    r_proc <- lapply(names(r), function(nm) {
+      v <- r[[nm]]
+      if (!is.list(v)) {
+        return(if (length(v) == 1) as.character(v) else NA_character_)
+      }
+      # Detecta mapa especie→meses (4.7.4): cada valor es list() o list de chars
+      es_scalar_o_lista_chars <- function(x) {
+        if (length(x) == 0) return(TRUE)
+        if (is.character(x)) return(TRUE)
+        if (is.list(x)) return(all(vapply(x, function(i) is.character(i) && length(i) == 1, logical(1))))
+        FALSE
+      }
+      es_mapa_meses <- all(vapply(v, es_scalar_o_lista_chars, logical(1)))
+      if (es_mapa_meses) {
+        con_meses <- Filter(function(meses) length(meses) > 0, v)
+        con_meses <- lapply(con_meses, function(meses) as.character(unlist(meses)))
+        if (length(con_meses) > 0)
+          return(as.character(jsonlite::toJSON(con_meses, auto_unbox = FALSE)))
+      }
+      NA_character_
+    })
+    names(r_proc) <- names(r)
+    as.data.frame(r_proc, stringsAsFactors = FALSE, check.names = FALSE)
   }))
 }
 
@@ -195,25 +253,20 @@ get_sec_title <- function(sec_num) {
 # =================== CARGA DE DATOS ===================
 
 cargar_respuestas_encuestas <- function() {
-  # Buscar el CSV homogenizado más reciente en el directorio de trabajo
-  csvs <- list.files(".", pattern = "^data_homogenized_.*\\.csv$", full.names = TRUE)
-  if (length(csvs) > 0) {
-    csv_path <- csvs[which.max(file.mtime(csvs))]
-    tryCatch({
-      df <- read.csv(csv_path, check.names = FALSE, stringsAsFactors = FALSE)
-      df <- homogenizar_df(df)   # re-aplica reglas actuales (incluye "1.1")
-      attr(df, "fuente")     <- "csv"
-      attr(df, "csv_nombre") <- basename(csv_path)
-      message("Datos cargados desde ", basename(csv_path), " (", nrow(df), " filas)")
-      return(df)
-    }, error = function(e) message("CSV: ", e$message))
-  }
-  # Fallback mínimo si no hay CSV
-  message("No se encontró CSV homogenizado. Ejecute download_and_homogenize.R primero.")
-  df <- data.frame(status = "demo", timestamp = as.character(Sys.time()),
-                   stringsAsFactors = FALSE)
-  attr(df, "fuente") <- "demo"
-  df
+  tryCatch({
+    df <- cargar_desde_firebase()
+    if (is.null(df) || nrow(df) == 0) {
+      message("Firebase: sin documentos.")
+      return(NULL)
+    }
+    df <- homogenizar_df(df)
+    attr(df, "fuente") <- "firebase"
+    message("Firebase: ", nrow(df), " documentos cargados.")
+    df
+  }, error = function(e) {
+    message("Firebase error: ", e$message)
+    NULL
+  })
 }
 
 cargar_localidades <- function() {
@@ -235,11 +288,13 @@ plotly_vacio <- function(msg = "Sin datos") {
 
 viz_question <- function(df, col_id) {
   if (!(col_id %in% names(df))) return(plotly_vacio("Columna no encontrada"))
+  if (col_id == "4.7.4") return(viz_tabla_especies(df))
   serie <- na.omit(as.character(df[[col_id]]))
   if (length(serie) == 0) return(plotly_vacio())
 
-  conteo       <- as.data.frame(sort(table(serie), decreasing = TRUE), stringsAsFactors = FALSE)
+  conteo        <- as.data.frame(table(serie), stringsAsFactors = FALSE)
   names(conteo) <- c("Opcion", "n")
+  conteo        <- conteo[order(conteo$n, decreasing = TRUE), ]
   n_uniq       <- nrow(conteo)
   BG           <- PLOTLY_BG
   BG_PLOT      <- "rgba(255,255,255,0.06)"
@@ -345,6 +400,53 @@ viz_question <- function(df, col_id) {
   }
 }
 
+# ── Visualización especial: tabla Especie × Mes (pregunta 4.7.4) ─────────────
+MESES_ORD <- c("Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic")
+
+viz_tabla_especies <- function(df) {
+  col_vals <- na.omit(df[["4.7.4"]])
+  if (length(col_vals) == 0) return(plotly_vacio("Sin datos de especie por mes"))
+
+  # Agregar todas las respuestas: especie → meses únicos capturados
+  acum <- list()
+  for (v in col_vals) {
+    tryCatch({
+      parsed <- jsonlite::fromJSON(v, simplifyVector = TRUE)
+      for (sp in names(parsed)) {
+        meses <- as.character(unlist(parsed[[sp]]))
+        meses <- meses[meses %in% MESES_ORD]
+        if (length(meses) == 0) next
+        acum[[sp]] <- unique(c(acum[[sp]], meses))
+      }
+    }, error = function(e) NULL)
+  }
+  if (length(acum) == 0) return(plotly_vacio("Sin datos de especie por mes"))
+
+  especies <- sort(names(acum))
+  mat <- matrix(0L, nrow = length(especies), ncol = length(MESES_ORD),
+                dimnames = list(especies, MESES_ORD))
+  for (sp in especies)
+    for (m in acum[[sp]])
+      mat[sp, m] <- 1L
+
+  BG <- PLOTLY_BG
+  plot_ly(
+    z         = mat,
+    x         = MESES_ORD,
+    y         = rownames(mat),
+    type      = "heatmap",
+    colorscale = list(c(0, "#E3F4FB"), c(1, UABCS_COLORS$azul_marino)),
+    showscale  = FALSE,
+    hovertemplate = "<b>%{y}</b> — %{x}<extra></extra>"
+  ) %>%
+    layout(
+      xaxis  = list(title = "", tickfont = list(size = 10), side = "top"),
+      yaxis  = list(title = "", tickfont = list(size = 10), autorange = "reversed"),
+      margin = list(l = 5, r = 5, t = 30, b = 5),
+      paper_bgcolor = BG, plot_bgcolor = BG
+    )
+}
+
 # =================== UI ===================
 
 ui <- dashboardPage(
@@ -376,22 +478,121 @@ ui <- dashboardPage(
 
 server <- function(input, output, session) {
 
-  datos_fuente <- reactiveVal("cargando")
+  autenticado   <- reactiveVal(FALSE)
+  usuario_email <- reactiveVal("")
+
+  datos_fuente  <- reactiveVal("cargando")
+  cargando_fb   <- reactiveVal(FALSE)
+  error_fb      <- reactiveVal(NULL)
+
+  # Almacén central de datos (NULL = no cargado aún)
+  .df_data      <- reactiveVal(NULL)
+
+  cargar_fb <- function() {
+    cargando_fb(TRUE)
+    error_fb(NULL)
+    tryCatch({
+      df <- cargar_respuestas_encuestas()
+      if (is.null(df)) {
+        error_fb("No se pudieron obtener datos de Firebase.")
+        datos_fuente("error")
+        .df_data(NULL)
+      } else {
+        if ("1.1" %in% names(df)) {
+          geo <- cargar_localidades()
+          if (nrow(geo) > 0 && "Localidad" %in% names(geo) && "Municipio" %in% names(geo)) {
+            mapa_mun     <- setNames(geo$Municipio, geo$Localidad)
+            df$Municipio <- mapa_mun[df[["1.1"]]]
+          }
+        }
+        datos_fuente("firebase")
+        .df_data(df)
+      }
+    }, error = function(e) {
+      error_fb(paste("Error al conectar con Firebase:", e$message))
+      datos_fuente("error")
+      .df_data(NULL)
+    })
+    cargando_fb(FALSE)
+  }
+
+  # Carga inicial al autenticarse
+  observeEvent(autenticado(), {
+    if (isTRUE(autenticado())) cargar_fb()
+  })
+
+  # Recarga manual con botón
+  observeEvent(input$btn_actualizar, {
+    cargar_fb()
+  })
 
   df_respuestas <- reactive({
-    df <- cargar_respuestas_encuestas()
-    datos_fuente(attr(df, "fuente") %||% "demo")
-    df
+    req(!is.null(.df_data()))
+    .df_data()
   })
 
   # ── Sidebar dinámico ────────────────────────────────────────────────────
   output$sidebar_content <- renderUI({
-    df     <- df_respuestas()
+    if (!autenticado()) {
+      return(tags$div(
+        style = "padding: 20px 15px; color: #666; font-size: 13px;",
+        tags$em("Inicia sesión para acceder al dashboard.")
+      ))
+    }
+
     fuente <- datos_fuente()
 
+    usuario_ui <- tags$div(
+      style = "padding: 10px 15px 5px;",
+      tags$span(
+        style = sprintf("color:%s; font-size:12px;", UABCS_COLORS$gris),
+        tags$strong("👤 "), usuario_email()
+      ),
+      tags$br(),
+      actionButton("btn_logout", "Cerrar sesión",
+                   class = "btn-default btn-xs",
+                   style = "margin-top:4px; width:100%;"),
+      tags$br(),
+      actionButton("btn_actualizar", "\U0001f504 Actualizar datos",
+                   class = "btn-primary btn-sm",
+                   style = "margin-top:6px; width:100%;")
+    )
+
+    # Estado de carga o error antes de mostrar filtros
+    if (isTRUE(cargando_fb())) {
+      return(tagList(
+        usuario_ui,
+        tags$div(style = "padding:15px; color:#666; font-size:13px; text-align:center;",
+                 tags$em("Cargando datos de Firebase..."))
+      ))
+    }
+
+    err <- error_fb()
+    if (!is.null(err)) {
+      return(tagList(
+        usuario_ui,
+        tags$div(
+          style = "margin:10px; padding:10px; background:#FDECEC; border-radius:6px;
+                   border-left:4px solid #CC1E1E; font-size:12px; color:#CC1E1E;",
+          tags$strong("\u26a0 Error: "), err
+        )
+      ))
+    }
+
+    df <- df_respuestas()
+
     filtros <- tagList(
+      usuario_ui,
+      tags$hr(style = sprintf("border:1px solid %s; margin: 6px 0;", UABCS_COLORS$amarillo)),
       h4("🔍 Filtros", style = sprintf("color:%s; padding:10px;", UABCS_COLORS$azul))
     )
+
+    if ("Municipio" %in% names(df)) {
+      muns    <- sort(unique(na.omit(df$Municipio)))
+      filtros <- tagList(filtros,
+        selectInput("filtro_municipio", "Municipio:",
+                    choices = c("Todos", muns), selected = "Todos"))
+    }
 
     if ("1.1" %in% names(df)) {
       locs    <- sort(unique(na.omit(df[["1.1"]])))
@@ -407,12 +608,8 @@ server <- function(input, output, session) {
                     choices = c("Todos", edades), selected = "Todos"))
     }
 
-    csv_nom <- attr(df_respuestas(), "csv_nombre") %||% "csv local"
-    color_f <- if (fuente %in% c("csv", "firebase")) "#2ecc71" else "#e67e22"
-    label_f <- switch(fuente,
-      "csv"      = paste0("\u25cf ", csv_nom),
-      "firebase" = "\u25cf Firebase en vivo",
-                   "\u25cf Datos demo")
+    color_f <- if (fuente == "firebase") "#2ecc71" else "#e67e22"
+    label_f <- if (fuente == "firebase") "\u25cf Firebase en vivo" else "\u25cf Sin conexi\u00f3n"
 
     tagList(
       filtros,
@@ -432,6 +629,9 @@ server <- function(input, output, session) {
   # ── Filtrado ────────────────────────────────────────────────────────────
   df_filtrado <- reactive({
     df <- df_respuestas()
+    if (!is.null(input$filtro_municipio) && input$filtro_municipio != "Todos" &&
+        "Municipio" %in% names(df))
+      df <- df[!is.na(df$Municipio) & df$Municipio == input$filtro_municipio, ]
     if (!is.null(input$filtro_localidad) && input$filtro_localidad != "Todas" &&
         "1.1" %in% names(df))
       df <- df[!is.na(df[["1.1"]]) & df[["1.1"]] == input$filtro_localidad, ]
@@ -441,8 +641,46 @@ server <- function(input, output, session) {
     df
   })
 
+  # ── Cascade: actualiza localidades al cambiar municipio ─────────────────
+  observeEvent(input$filtro_municipio, {
+    df <- df_respuestas()
+    if (!("1.1" %in% names(df))) return()
+    locs <- if (!is.null(input$filtro_municipio) && input$filtro_municipio != "Todos" &&
+                 "Municipio" %in% names(df)) {
+      sort(unique(na.omit(df[["1.1"]][df$Municipio == input$filtro_municipio])))
+    } else {
+      sort(unique(na.omit(df[["1.1"]])))
+    }
+    updateSelectInput(session, "filtro_localidad", choices = c("Todas", locs), selected = "Todas")
+  }, ignoreInit = TRUE)
+
   # ── Tabs principales (dinámicos por sección) ────────────────────────────
   output$main_tabs_ui <- renderUI({
+    if (!autenticado()) {
+      return(tags$div(
+        style = "max-width:420px; margin:60px auto; padding:36px 32px; background:#fff;
+                 border-radius:12px; border-top:6px solid #009FD4;
+                 box-shadow:0 4px 24px rgba(0,0,0,0.10);",
+        tags$div(
+          style = "text-align:center; margin-bottom:20px;",
+          tags$img(src = "logo_uabcs.png", height = "80px", style = "margin-bottom:12px;"),
+          tags$h3("Dashboard de Encuestas Pesqueras",
+                  style = "color:#00497E; margin:0; font-size:1.3rem;"),
+          tags$p("Universidad Autónoma de Baja California Sur",
+                 style = "color:#4A5568; font-size:13px; margin:4px 0 0;")
+        ),
+        tags$hr(style = "border:2px solid #FFD100; margin-bottom:20px;"),
+        textInput("login_email", "Correo electrónico", placeholder = "usuario@uabcs.mx",
+                  width = "100%"),
+        passwordInput("login_password", "Contraseña", placeholder = "••••••••",
+                      width = "100%"),
+        uiOutput("login_mensaje"),
+        actionButton("btn_login", "Iniciar sesión",
+                     class = "btn-primary",
+                     style = "width:100%; margin-top:8px; font-size:15px;")
+      ))
+    }
+
     df     <- df_respuestas()
     groups <- get_section_groups(names(df))
 
@@ -450,13 +688,15 @@ server <- function(input, output, session) {
     resumen_tab <- tabPanel("📊 Resumen",
       fluidRow(
         valueBoxOutput("box_total",   width = 3),
+        valueBoxOutput("box_muns",    width = 2),
         valueBoxOutput("box_locs",    width = 3),
-        valueBoxOutput("box_complet", width = 3),
-        valueBoxOutput("box_campos",  width = 3)
+        valueBoxOutput("box_complet", width = 2),
+        valueBoxOutput("box_campos",  width = 2)
       ),
       fluidRow(
-        column(6, h4("Respuestas por Localidad"), plotlyOutput("plot_localidad", height = "280px")),
-        column(6, h4("Distribución por Edad (preg. 3.2)"), plotlyOutput("plot_edad", height = "280px"))
+        column(4, h4("Respuestas por Municipio"), plotlyOutput("plot_municipio", height = "280px")),
+        column(4, h4("Respuestas por Localidad"), plotlyOutput("plot_localidad", height = "280px")),
+        column(4, h4("Distribución por Edad (preg. 3.2)"), plotlyOutput("plot_edad", height = "280px"))
       )
     )
 
@@ -522,6 +762,11 @@ server <- function(input, output, session) {
   # ── Value boxes ─────────────────────────────────────────────────────────
   output$box_total   <- renderValueBox(
     valueBox(nrow(df_filtrado()), "Encuestas", icon("chart-bar"), color = "blue"))
+  output$box_muns    <- renderValueBox({
+    df <- df_filtrado()
+    n  <- if ("Municipio" %in% names(df)) dplyr::n_distinct(df$Municipio, na.rm = TRUE) else "\u2013"
+    valueBox(sprintf("%s/5", n), "Municipios", icon("map"), color = "blue")
+  })
   output$box_locs    <- renderValueBox({
     df <- df_filtrado()
     n  <- if ("1.1" %in% names(df)) dplyr::n_distinct(df[["1.1"]], na.rm = TRUE) else "\u2013"
@@ -536,6 +781,38 @@ server <- function(input, output, session) {
     valueBox(ncol(df_filtrado()), "Campos", icon("database"), color = "yellow"))
 
   # ── Gráficas de resumen ─────────────────────────────────────────────────
+  output$plot_municipio <- renderPlotly({
+    df <- df_filtrado()
+    if (!("Municipio" %in% names(df))) return(plotly_vacio("Sin datos de Municipio"))
+    muns <- df %>% dplyr::count(Municipio) %>% dplyr::rename(Nom = 1) %>% dplyr::arrange(n)
+    muns$ypos <- seq_len(nrow(muns))
+    plot_ly() %>%
+      add_segments(
+        x = rep(0, nrow(muns)), xend = muns$n,
+        y = muns$ypos, yend = muns$ypos,
+        line = list(color = "rgba(0,73,126,0.28)", width = 2.5),
+        showlegend = FALSE, hoverinfo = "skip"
+      ) %>%
+      add_trace(
+        type = "scatter", mode = "markers",
+        x = muns$n, y = muns$ypos,
+        marker = list(size = 13, color = muns$n,
+                      colorscale = list(c(0, UABCS_COLORS$azul_suave),
+                                        c(1, UABCS_COLORS$azul_marino)),
+                      showscale = FALSE,
+                      line = list(color = UABCS_COLORS$amarillo, width = 2)),
+        text      = paste0(muns$Nom, ": ", muns$n),
+        hovertemplate = "%{text} encuestas<extra></extra>",
+        showlegend = FALSE
+      ) %>%
+      layout(
+        yaxis = list(tickmode = "array", tickvals = muns$ypos, ticktext = muns$Nom,
+                     title = "", tickfont = list(size = 9)),
+        xaxis = list(title = "", gridcolor = "rgba(0,0,0,0.08)"),
+        showlegend = FALSE, margin = list(l = 5, r = 20, t = 5, b = 5),
+        paper_bgcolor = PLOTLY_BG, plot_bgcolor = "rgba(255,255,255,0.06)")
+  })
+
   output$plot_localidad <- renderPlotly({
     df <- df_filtrado()
     if (!("1.1" %in% names(df))) return(plotly_vacio("Sin datos de Localidad"))
@@ -641,6 +918,43 @@ server <- function(input, output, session) {
     filename = function() sprintf("encuestas_%s.csv", Sys.Date()),
     content  = function(file) write_csv(df_filtrado(), file)
   )
+
+  # ── Autenticación: login ────────────────────────────────────────────────
+  login_error <- reactiveVal(NULL)
+
+  output$login_mensaje <- renderUI({
+    msg <- login_error()
+    if (!is.null(msg)) {
+      tags$div(
+        style = "color:#CC1E1E; background:#FDECEC; border-radius:6px;
+                 padding:8px 12px; margin-bottom:8px; font-size:13px;",
+        tags$strong("⚠ "), msg
+      )
+    }
+  })
+
+  observeEvent(input$btn_login, {
+    email    <- trimws(input$login_email)
+    password <- input$login_password
+    if (nchar(email) == 0 || nchar(password) == 0) {
+      login_error("Por favor ingresa tu correo y contraseña.")
+      return()
+    }
+    login_error(NULL)
+    resultado <- autenticar_usuario(email, password)
+    if (isTRUE(resultado$ok)) {
+      autenticado(TRUE)
+      usuario_email(resultado$email)
+    } else {
+      login_error(resultado$error)
+    }
+  })
+
+  # ── Autenticación: logout ───────────────────────────────────────────────
+  observeEvent(input$btn_logout, {
+    autenticado(FALSE)
+    usuario_email("")
+  })
 }
 
 shinyApp(ui, server)
